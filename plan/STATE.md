@@ -2,7 +2,8 @@
 
 > Living document. Overwritten every session. If it disagrees with the code, the
 > code wins — then fix this file in the same PR (`AGT-27`).
-> Last updated: 2026-11-07, session 002 (M1 platform, clock, log routing).
+> Last updated: 2026-11-07, session 002 (M1 platform, clock, log routing), tagged
+> `v0.1.0-m1`.
 
 ## Phase
 
@@ -11,6 +12,17 @@
 The game repository seed lives in `game/` in this workspace; its contents become
 the repository root on GitHub, with `plan/` alongside. The voxel asset generator
 stays where it is and will feed `tools/cook_assets` from M4.
+
+## Releases
+
+| Tag | Milestone | Points at | Contents |
+|---|---|---|---|
+| `v0.1.0-m1` | M1 | `fabee5c` (first commit) | engine seed at version `0.1.0-m1`: clock, platform, log sinks, 31 tests, gates, assets |
+
+The tag is annotated and local; nothing is pushed yet. Two rules that keep it
+meaningful: `kVersion` in `src/core/version.h` and the tag move together, and a
+tag is never moved after it is pushed. If a tagged state turns out to be broken,
+publish a new tag rather than retagging.
 
 ## Green
 
