@@ -1,0 +1,18 @@
+# Style: see plan/STYLE_GUIDE.md. LAY-01..LAY-03 are machine-checked by
+# tools/lint_conventions.py as well; this file is the formatter of record.
+BasedOnStyle: LLVM
+IndentWidth: 4
+ColumnLimit: 100
+BreakBeforeBraces: Attach
+AccessModifierOffset: -4
+AllowShortFunctionsOnASingleLine: None
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+AlwaysBreakTemplateDeclarations: Yes
+PointerAlignment: Left
+ReferenceAlignment: Left
+DerivePointerAlignment: false
+SortIncludes: CaseSensitive
+IncludeBlocks: Preserve
+SpaceBeforeParens: ControlStatements
+Standard: c++20

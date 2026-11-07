@@ -1,0 +1,108 @@
+{
+  "asset": "robot_arm",
+  "units": "metres",
+  "forward": "+Z",
+  "up": "+Y",
+  "note": "glTF node hierarchy mirrors this rig: rotate each part node about its joint axis. Pivots are in model space.",
+  "parts": [
+    {
+      "name": "base",
+      "parent": null,
+      "pivot": [
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "axis": null,
+      "mode": "rotate",
+      "limits_deg": null,
+      "limits_m": null,
+      "note": "bolted to the floor, never moves"
+    },
+    {
+      "name": "turret",
+      "parent": "base",
+      "pivot": [
+        0.0,
+        0.5,
+        -0.0
+      ],
+      "axis": "z",
+      "mode": "rotate",
+      "limits_deg": [
+        -170,
+        170
+      ],
+      "limits_m": null,
+      "note": "base rotation"
+    },
+    {
+      "name": "shoulder",
+      "parent": "turret",
+      "pivot": [
+        0.0,
+        1.125,
+        -0.0
+      ],
+      "axis": "x",
+      "mode": "rotate",
+      "limits_deg": [
+        -60,
+        85
+      ],
+      "limits_m": null,
+      "note": "upper arm pitch"
+    },
+    {
+      "name": "elbow",
+      "parent": "shoulder",
+      "pivot": [
+        0.0,
+        1.8125,
+        -0.0
+      ],
+      "axis": "x",
+      "mode": "rotate",
+      "limits_deg": [
+        -120,
+        70
+      ],
+      "limits_m": null,
+      "note": "forearm pitch"
+    },
+    {
+      "name": "wrist",
+      "parent": "elbow",
+      "pivot": [
+        0.0,
+        2.25,
+        -0.0
+      ],
+      "axis": "x",
+      "mode": "rotate",
+      "limits_deg": [
+        -180,
+        180
+      ],
+      "limits_m": null,
+      "note": "wrist roll"
+    },
+    {
+      "name": "gripper",
+      "parent": "wrist",
+      "pivot": [
+        0.0,
+        2.5,
+        -0.0
+      ],
+      "axis": "x",
+      "mode": "rotate",
+      "limits_deg": [
+        0,
+        40
+      ],
+      "limits_m": null,
+      "note": "parallel two-finger gripper, 40 mm travel"
+    }
+  ]
+}

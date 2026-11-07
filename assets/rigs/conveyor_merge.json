@@ -1,0 +1,40 @@
+{
+  "asset": "conveyor_merge",
+  "units": "metres",
+  "forward": "+Z",
+  "up": "+Y",
+  "note": "glTF node hierarchy mirrors this rig: rotate each part node about its joint axis. Pivots are in model space.",
+  "parts": [
+    {
+      "name": "frame",
+      "parent": null,
+      "pivot": [
+        0.0,
+        0.0,
+        0.5
+      ],
+      "axis": null,
+      "mode": "rotate",
+      "limits_deg": null,
+      "limits_m": null,
+      "note": "static: roller bed, side lane, chamfer, photo-eyes, housing, lift cylinder"
+    },
+    {
+      "name": "transfer",
+      "parent": "frame",
+      "pivot": [
+        0.7031,
+        0.75,
+        0.2812
+      ],
+      "axis": "z",
+      "mode": "slide",
+      "limits_deg": null,
+      "limits_m": [
+        0.0,
+        0.1
+      ],
+      "note": "0 m = links below the roller crown, 0.10 m = links raised"
+    }
+  ]
+}

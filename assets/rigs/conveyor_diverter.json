@@ -1,0 +1,40 @@
+{
+  "asset": "conveyor_diverter",
+  "units": "metres",
+  "forward": "+Z",
+  "up": "+Y",
+  "note": "glTF node hierarchy mirrors this rig: rotate each part node about its joint axis. Pivots are in model space.",
+  "parts": [
+    {
+      "name": "frame",
+      "parent": null,
+      "pivot": [
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "axis": null,
+      "mode": "rotate",
+      "limits_deg": null,
+      "limits_m": null,
+      "note": "static: roller bed, frames, drive unit, valve block"
+    },
+    {
+      "name": "pusher",
+      "parent": "frame",
+      "pivot": [
+        0.0,
+        1.0781,
+        -0.0
+      ],
+      "axis": "y",
+      "mode": "slide",
+      "limits_deg": null,
+      "limits_m": [
+        0.0,
+        0.3
+      ],
+      "note": "0 m = retracted, 0.30 m = full stroke across the bed"
+    }
+  ]
+}

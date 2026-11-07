@@ -1,0 +1,66 @@
+name: ci
+
+# The gate. Every job runs the same script a developer runs, so "it passes on my
+# machine" and "it passes in CI" cannot drift apart.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  linux-gcc:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ninja-build clang-format python3
+      - name: Install SDL3 (optional)
+        run: |
+          sudo apt-get install -y libsdl3-dev \
+            || echo "SDL3 unavailable on this image: the headless platform stub will be built"
+      - name: Verify
+        run: ./tools/verify.sh
+
+  linux-clang:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ninja-build clang clang-format clang-tidy python3
+      - name: Install SDL3 (optional)
+        run: |
+          sudo apt-get install -y libsdl3-dev \
+            || echo "SDL3 unavailable on this image: the headless platform stub will be built"
+      - name: Verify
+        env:
+          CXX: clang++
+        run: ./tools/verify.sh
+      - name: Static analysis (advisory until M2)
+        continue-on-error: true
+        run: |
+          cmake --preset dev
+          cmake --build --preset dev --target fct_core fct_sim fct_platform -j2
+          run-clang-tidy -p build/dev 'src/.*' || true
+
+  windows-msvc:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install toolchain
+        run: |
+          choco install ninja python3 --no-progress -y
+      - name: Install SDL3 (optional)
+        run: |
+          choco install sdl3 --no-progress -y || echo "SDL3 unavailable: headless stub will be built"
+      - name: Verify
+        shell: bash
+        run: ./tools/verify.sh

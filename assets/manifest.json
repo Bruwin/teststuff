@@ -1,0 +1,3065 @@
+{
+  "asset_set": "voxel-factory",
+  "version": 1,
+  "units": "metres",
+  "voxel_size": 0.03125,
+  "up": "+Y",
+  "forward": "+Z",
+  "origin": "bottom centre of the footprint, y = 0 on the floor",
+  "grid": {
+    "tile_voxels": 32,
+    "tile_m": 2.0
+  },
+  "conventions": {
+    "vertex_colors": "COLOR_0, sRGB floats, flat per-face normals",
+    "material": "single shared PBR material, no textures",
+    "ports": "pos/dir in metres, model space, dir points outward"
+  },
+  "palette": {
+    "steel_dark": "#3A4250",
+    "steel": "#6C7885",
+    "steel_light": "#96A2AE",
+    "galv": "#B7C1CB",
+    "white_panel": "#DCE2E8",
+    "iron": "#59616D",
+    "rust": "#8C4C33",
+    "rust_dark": "#6B3927",
+    "concrete": "#9C988F",
+    "concrete_dark": "#7E7A72",
+    "yellow": "#E7B437",
+    "yellow_dark": "#C28F1D",
+    "orange": "#DF7A2C",
+    "orange_dark": "#B85E1B",
+    "red": "#BE3A2C",
+    "red_dark": "#93261B",
+    "teal": "#2C8B8B",
+    "teal_dark": "#1E6666",
+    "blue": "#2F6FA8",
+    "blue_dark": "#235180",
+    "navy": "#223E58",
+    "green": "#4D9A5B",
+    "green_dark": "#38733F",
+    "water": "#3E7FA6",
+    "water_light": "#5FA0C4",
+    "gas": "#C9D6DE",
+    "oil": "#4A4136",
+    "coolant": "#6FBF73",
+    "copper": "#C0783C",
+    "brass": "#BE9A46",
+    "rubber": "#23262B",
+    "rubber_dark": "#15171A",
+    "belt": "#3A3F47",
+    "belt_dark": "#272B31",
+    "orange_frame": "#E8722B",
+    "orange_frame_dark": "#B8551B",
+    "hazard_yellow": "#F5C518",
+    "hazard_black": "#232323",
+    "roller": "#B9C0C7",
+    "roller_dark": "#8A929B",
+    "frame_dark": "#3B3F46",
+    "grille": "#6E7781",
+    "hydraulic": "#C9A227",
+    "glass": "#8EC5D6",
+    "glass_dark": "#5F9DB1",
+    "lamp_green": "#7FE08A",
+    "lamp_amber": "#F3C24C",
+    "lamp_red": "#E4574A",
+    "lamp_blue": "#6FB3E8",
+    "screen": "#2A6F7A",
+    "screen_glow": "#57C7C4",
+    "wood": "#9A6B43",
+    "wood_dark": "#70502F",
+    "cardboard": "#B98A56",
+    "cardboard_dark": "#96693C",
+    "sand": "#C8A96E",
+    "grain": "#D9B871"
+  },
+  "assets": [
+    {
+      "id": "conveyor_straight",
+      "category": "logistics",
+      "glb": "glb/conveyor_straight.glb",
+      "obj": "obj/conveyor_straight.obj",
+      "preview": "preview/conveyor_straight.png",
+      "size_voxels": [
+        64,
+        32,
+        30
+      ],
+      "size_m": [
+        2.0,
+        0.9375,
+        1.0
+      ],
+      "footprint_m": [
+        2.0,
+        1.0
+      ],
+      "height_m": 0.9375,
+      "tris": 1944,
+      "verts": 3888,
+      "aabb": {
+        "min": [
+          -1.0,
+          0.0,
+          -0.5
+        ],
+        "max": [
+          1.0,
+          0.9375,
+          0.5
+        ]
+      },
+      "ports": [
+        {
+          "name": "in",
+          "pos": [
+            -1.0,
+            0.9062,
+            -0.0
+          ],
+          "dir": [
+            -1,
+            0,
+            0
+          ],
+          "type": "item",
+          "note": "belt inlet"
+        },
+        {
+          "name": "out",
+          "pos": [
+            1.0,
+            0.9062,
+            -0.0
+          ],
+          "dir": [
+            1,
+            0,
+            0
+          ],
+          "type": "item",
+          "note": "belt outlet"
+        },
+        {
+          "name": "power",
+          "pos": [
+            -0.5625,
+            0.75,
+            0.5
+          ],
+          "dir": [
+            0,
+            0,
+            1
+          ],
+          "type": "power",
+          "note": ""
+        }
+      ],
+      "meta": {
+        "category": "logistics",
+        "tile": "2x1",
+        "snap": 32,
+        "tile_voxels": [
+          64,
+          32
+        ],
+        "kind": "roller"
+      },
+      "bytes": 164904
+    },
+    {
+      "id": "conveyor_scanner",
+      "category": "logistics",
+      "glb": "glb/conveyor_scanner.glb",
+      "obj": "obj/conveyor_scanner.obj",
+      "preview": "preview/conveyor_scanner.png",
+      "size_voxels": [
+        64,
+        33,
+        93
+      ],
+      "size_m": [
+        2.0,
+        2.9062,
+        1.0312
+      ],
+      "footprint_m": [
+        2.0,
+        1.0312
+      ],
+      "height_m": 2.9062,
+      "tris": 2498,
+      "verts": 4996,
+      "aabb": {
+        "min": [
+          -1.0,
+          0.0,
+          -0.5312
+        ],
+        "max": [
+          1.0,
+          2.9062,
+          0.5
+        ]
+      },
+      "ports": [
+        {
+          "name": "in",
+          "pos": [
+            -1.0,
+            0.9062,
+            -0.0
+          ],
+          "dir": [
+            -1,
+            0,
+            0
+          ],
+          "type": "item",
+          "note": ""
+        },
+        {
+          "name": "out",
+          "pos": [
+            1.0,
+            0.9062,
+            -0.0
+          ],
+          "dir": [
+            1,
+            0,
+            0
+          ],
+          "type": "item",
+          "note": ""
+        },
+        {
+          "name": "scan",
+          "pos": [
+            -0.125,
+            2.5,
+            -0.0
+          ],
+          "dir": [
+            0,
+            1,
+            0
+          ],
+          "type": "data",
+          "note": "inspection data"
+        },
+        {
+          "name": "power",
+          "pos": [
+            -0.1875,
+            0.75,
+            0.5
+          ],
+          "dir": [
+            0,
+            0,
+            1
+          ],
+          "type": "power",
+          "note": ""
+        }
+      ],
+      "meta": {
+        "category": "logistics",
+        "tile": "2x1",
+        "snap": 32,
+        "tile_voxels": [
+          64,
+          32
+        ],
+        "kind": "scanner"
+      },
+      "bytes": 211524
+    },
+    {
+      "id": "conveyor_corner",
+      "category": "logistics",
+      "glb": "glb/conveyor_corner.glb",
+      "obj": "obj/conveyor_corner.obj",
+      "preview": "preview/conveyor_corner.png",
+      "size_voxels": [
+        56,
+        65,
+        30
+      ],
+      "size_m": [
+        1.75,
+        0.9375,
+        2.0312
+      ],
+      "footprint_m": [
+        1.75,
+        2.0312
+      ],
+      "height_m": 0.9375,
+      "tris": 2460,
+      "verts": 4920,
+      "aabb": {
+        "min": [
+          -1.0,
+          0.0,
+          -1.0312
+        ],
+        "max": [
+          0.75,
+          0.9375,
+          1.0
+        ]
+      },
+      "ports": [
+        {
+          "name": "in",
+          "pos": [
+            -1.0,
+            0.9062,
+            0.5
+          ],
+          "dir": [
+            -1,
+            0,
+            0
+          ],
+          "type": "item",
+          "note": ""
+        },
+        {
+          "name": "out",
+          "pos": [
+            0.0,
+            0.9062,
+            -1.0
+          ],
+          "dir": [
+            0,
+            0,
+            -1
+          ],
+          "type": "item",
+          "note": ""
+        }
+      ],
+      "meta": {
+        "category": "logistics",
+        "tile": "2x2",
+        "snap": 32,
+        "kind": "curve",
+        "tile_voxels": [
+          64,
+          64
+        ]
+      },
+      "bytes": 208140
+    },
+    {
+      "id": "conveyor_endstop",
+      "category": "logistics",
+      "glb": "glb/conveyor_endstop.glb",
+      "obj": "obj/conveyor_endstop.obj",
+      "preview": "preview/conveyor_endstop.png",
+      "size_voxels": [
+        46,
+        32,
+        33
+      ],
+      "size_m": [
+        1.4375,
+        1.0312,
+        1.0
+      ],
+      "footprint_m": [
+        1.4375,
+        1.0
+      ],
+      "height_m": 1.0312,
+      "tris": 1096,
+      "verts": 2192,
+      "aabb": {
+        "min": [
+          -0.5,
+          0.0,
+          -0.5
+        ],
+        "max": [
+          0.9375,
+          1.0312,
+          0.5
+        ]
+      },
+      "ports": [
+        {
+          "name": "in",
+          "pos": [
+            -0.5,
+            0.9062,
+            -0.0
+          ],
+          "dir": [
+            -1,
+            0,
+            0
+          ],
+          "type": "item",
+          "note": ""
+        },
+        {
+          "name": "chute",
+          "pos": [
+            0.6875,
+            0.25,
+            -0.0
+          ],
+          "dir": [
+            1,
+            0,
+            0
+          ],
+          "type": "item",
+          "note": "gravity drop"
+        }
+      ],
+      "meta": {
+        "category": "logistics",
+        "tile": "1x1",
+        "snap": 16,
+        "tile_voxels": [
+          32,
+          32
+        ]
+      },
+      "bytes": 93560
+    },
+    {
+      "id": "conveyor_hopper",
+      "category": "logistics",
+      "glb": "glb/conveyor_hopper.glb",
+      "obj": "obj/conveyor_hopper.obj",
+      "preview": "preview/conveyor_hopper.png",
+      "size_voxels": [
+        57,
+        48,
+        50
+      ],
+      "size_m": [
+        1.7812,
+        1.5625,
+        1.5
+      ],
+      "footprint_m": [
+        1.7812,
+        1.5
+      ],
+      "height_m": 1.5625,
+      "tris": 980,
+      "verts": 1960,
+      "aabb": {
+        "min": [
+          -1.0,
+          0.0,
+          -0.5
+        ],
+        "max": [
+          0.7812,
+          1.5625,
+          1.0
+        ]
+      },
+      "ports": [
+        {
+          "name": "in",
+          "pos": [
+            -0.25,
+            1.875,
+            0.25
+          ],
+          "dir": [
+            0,
+            1,
+            0
+          ],
+          "type": "item",
+          "note": "loaded from above"
+        },
+        {
+          "name": "out",
+          "pos": [
+            0.75,
+            0.75,
+            0.25
+          ],
+          "dir": [
+            1,
+            0,
+            0
+          ],
+          "type": "item",
+          "note": ""
+        }
+      ],
+      "meta": {
+        "category": "logistics",
+        "tile": "2x2",
+        "snap": 32,
+        "tile_voxels": [
+          64,
+          64
+        ]
+      },
+      "bytes": 83812
+    },
+    {
+      "id": "conveyor_diverter",
+      "category": "logistics",
+      "glb": "glb/conveyor_diverter.glb",
+      "obj": "obj/conveyor_diverter.obj",
+      "preview": "preview/conveyor_diverter.png",
+      "size_voxels": [
+        64,
+        32,
+        40
+      ],
+      "size_m": [
+        2.0,
+        1.25,
+        1.0
+      ],
+      "footprint_m": [
+        2.0,
+        1.0
+      ],
+      "height_m": 1.25,
+      "tris": 2418,
+      "verts": 4836,
+      "aabb": {
+        "min": [
+          -1.0,
+          0.0,
+          -0.5
+        ],
+        "max": [
+          1.0,
+          1.25,
+          0.5
+        ]
+      },
+      "ports": [
+        {
+          "name": "in",
+          "pos": [
+            -1.0,
+            0.9062,
+            -0.0
+          ],
+          "dir": [
+            -1,
+            0,
+            0
+          ],
+          "type": "item",
+          "note": ""
+        },
+        {
+          "name": "out",
+          "pos": [
+            1.0,
+            0.9062,
+            -0.0
+          ],
+          "dir": [
+            1,
+            0,
+            0
+          ],
+          "type": "item",
+          "note": ""
+        },
+        {
+          "name": "reject",
+          "pos": [
+            -0.0312,
+            0.9062,
+            -0.5
+          ],
+          "dir": [
+            0,
+            0,
+            -1
+          ],
+          "type": "item",
+          "note": "pusher ejection"
+        },
+        {
+          "name": "air",
+          "pos": [
+            0.375,
+            1.0625,
+            0.5
+          ],
+          "dir": [
+            0,
+            0,
+            1
+          ],
+          "type": "gas",
+          "note": ""
+        },
+        {
+          "name": "power",
+          "pos": [
+            -0.75,
+            0.75,
+            0.5
+          ],
+          "dir": [
+            0,
+            0,
+            1
+          ],
+          "type": "power",
+          "note": ""
+        }
+      ],
+      "meta": {
+        "category": "logistics",
+        "tile": "2x1",
+        "snap": 32,
+        "kind": "diverter",
+        "tile_voxels": [
+          64,
+          32
+        ],
+        "pusher_stroke_m": 0.3,
+        "preview_pose": {
+          "pusher": 0.15
+        }
+      },
+      "bytes": 205920,
+      "rig": "rigs/conveyor_diverter.json",
+      "parts": [
+        "frame",
+        "pusher"
+      ]
+    },
+    {
+      "id": "conveyor_merge",
+      "category": "logistics",
+      "glb": "glb/conveyor_merge.glb",
+      "obj": "obj/conveyor_merge.obj",
+      "preview": "preview/conveyor_merge.png",
+      "size_voxels": [
+        64,
+        64,
+        40
+      ],
+      "size_m": [
+        2.0,
+        1.25,
+        2.0
+      ],
+      "footprint_m": [
+        2.0,
+        2.0
+      ],
+      "height_m": 1.25,
+      "tris": 2680,
+      "verts": 5360,
+      "aabb": {
+        "min": [
+          -1.0,
+          0.0,
+          -1.0
+        ],
+        "max": [
+          1.0,
+          1.25,
+          1.0
+        ]
+      },
+      "ports": [
+        {
+          "name": "in_main",
+          "pos": [
+            -1.0,
+            0.9062,
+            0.5
+          ],
+          "dir": [
+            -1,
+            0,
+            0
+          ],
+          "type": "item",
+          "note": ""
+        },
+        {
+          "name": "in_side",
+          "pos": [
+            -0.25,
+            0.9062,
+            -1.0
+          ],
+          "dir": [
+            0,
+            0,
+            -1
+          ],
+          "type": "item",
+          "note": ""
+        },
+        {
+          "name": "out",
+          "pos": [
+            1.0,
+            0.9062,
+            0.5
+          ],
+          "dir": [
+            1,
+            0,
+            0
+          ],
+          "type": "item",
+          "note": ""
+        },
+        {
+          "name": "air",
+          "pos": [
+            0.75,
+            0.7812,
+            1.0
+          ],
+          "dir": [
+            0,
+            0,
+            1
+          ],
+          "type": "gas",
+          "note": ""
+        },
+        {
+          "name": "power",
+          "pos": [
+            -0.75,
+            0.75,
+            1.0
+          ],
+          "dir": [
+            0,
+            0,
+            1
+          ],
+          "type": "power",
+          "note": ""
+        }
+      ],
+      "meta": {
+        "category": "logistics",
+        "tile": "2x2",
+        "snap": 32,
+        "kind": "merge",
+        "tile_voxels": [
+          64,
+          64
+        ],
+        "transfer_stroke_m": 0.1,
+        "preview_pose": {
+          "transfer": 0.1
+        }
+      },
+      "bytes": 227948,
+      "rig": "rigs/conveyor_merge.json",
+      "parts": [
+        "frame",
+        "transfer"
+      ]
+    },
+    {
+      "id": "conveyor_gate",
+      "category": "logistics",
+      "glb": "glb/conveyor_gate.glb",
+      "obj": "obj/conveyor_gate.obj",
+      "preview": "preview/conveyor_gate.png",
+      "size_voxels": [
+        46,
+        32,
+        40
+      ],
+      "size_m": [
+        1.4375,
+        1.25,
+        1.0
+      ],
+      "footprint_m": [
+        1.4375,
+        1.0
+      ],
+      "height_m": 1.25,
+      "tris": 1678,
+      "verts": 3356,
+      "aabb": {
+        "min": [
+          -0.5,
+          0.0,
+          -0.5
+        ],
+        "max": [
+          0.9375,
+          1.25,
+          0.5
+        ]
+      },
+      "ports": [
+        {
+          "name": "in",
+          "pos": [
+            -0.5,
+            0.9062,
+            -0.0
+          ],
+          "dir": [
+            -1,
+            0,
+            0
+          ],
+          "type": "item",
+          "note": ""
+        },
+        {
+          "name": "out",
+          "pos": [
+            0.5,
+            0.9062,
+            -0.0
+          ],
+          "dir": [
+            1,
+            0,
+            0
+          ],
+          "type": "item",
+          "note": ""
+        },
+        {
+          "name": "air",
+          "pos": [
+            0.25,
+            0.8125,
+            0.5
+          ],
+          "dir": [
+            0,
+            0,
+            1
+          ],
+          "type": "gas",
+          "note": ""
+        }
+      ],
+      "meta": {
+        "category": "logistics",
+        "tile": "1x1",
+        "snap": 16,
+        "kind": "gate",
+        "tile_voxels": [
+          32,
+          32
+        ],
+        "blade_travel_m": 0.29,
+        "preview_pose": {
+          "blade": -0.145
+        }
+      },
+      "bytes": 143576,
+      "rig": "rigs/conveyor_gate.json",
+      "parts": [
+        "frame",
+        "blade"
+      ]
+    },
+    {
+      "id": "smelter_furnace",
+      "category": "process",
+      "glb": "glb/smelter_furnace.glb",
+      "obj": "obj/smelter_furnace.obj",
+      "preview": "preview/smelter_furnace.png",
+      "size_voxels": [
+        64,
+        64,
+        98
+      ],
+      "size_m": [
+        2.0,
+        3.0625,
+        2.0
+      ],
+      "footprint_m": [
+        2.0,
+        2.0
+      ],
+      "height_m": 3.0625,
+      "tris": 5122,
+      "verts": 10244,
+      "aabb": {
+        "min": [
+          -1.0,
+          0.0,
+          -1.0
+        ],
+        "max": [
+          1.0,
+          3.0625,
+          1.0
+        ]
+      },
+      "ports": [
+        {
+          "name": "charge",
+          "pos": [
+            0.4375,
+            2.25,
+            -1.0
+          ],
+          "dir": [
+            0,
+            0,
+            -1
+          ],
+          "type": "item",
+          "note": "top charge chute"
+        },
+        {
+          "name": "tap",
+          "pos": [
+            0.625,
+            0.4375,
+            1.0
+          ],
+          "dir": [
+            0,
+            0,
+            1
+          ],
+          "type": "fluid",
+          "note": "molten slag/ingot tap"
+        },
+        {
+          "name": "exhaust",
+          "pos": [
+            -0.4375,
+            3.0625,
+            -0.625
+          ],
+          "dir": [
+            0,
+            1,
+            0
+          ],
+          "type": "gas",
+          "note": "chimney outlet"
+        }
+      ],
+      "meta": {
+        "category": "process",
+        "tile": "2x2",
+        "power_kw": 45
+      },
+      "bytes": 431860
+    },
+    {
+      "id": "assembler",
+      "category": "process",
+      "glb": "glb/assembler.glb",
+      "obj": "obj/assembler.obj",
+      "preview": "preview/assembler.png",
+      "size_voxels": [
+        64,
+        64,
+        64
+      ],
+      "size_m": [
+        2.0,
+        2.0,
+        2.0
+      ],
+      "footprint_m": [
+        2.0,
+        2.0
+      ],
+      "height_m": 2.0,
+      "tris": 2888,
+      "verts": 5776,
+      "aabb": {
+        "min": [
+          -1.0,
+          0.0,
+          -1.0
+        ],
+        "max": [
+          1.0,
+          2.0,
+          1.0
+        ]
+      },
+      "ports": [
+        {
+          "name": "in",
+          "pos": [
+            -1.0,
+            0.5,
+            -0.0
+          ],
+          "dir": [
+            -1,
+            0,
+            0
+          ],
+          "type": "item",
+          "note": ""
+        },
+        {
+          "name": "out",
+          "pos": [
+            1.0,
+            0.5,
+            -0.0
+          ],
+          "dir": [
+            1,
+            0,
+            0
+          ],
+          "type": "item",
+          "note": ""
+        },
+        {
+          "name": "power",
+          "pos": [
+            0.0,
+            0.4375,
+            -1.0
+          ],
+          "dir": [
+            0,
+            0,
+            -1
+          ],
+          "type": "power",
+          "note": ""
+        },
+        {
+          "name": "coolant",
+          "pos": [
+            0.0,
+            1.375,
+            -1.0
+          ],
+          "dir": [
+            0,
+            0,
+            -1
+          ],
+          "type": "fluid",
+          "note": ""
+        }
+      ],
+      "meta": {
+        "category": "process",
+        "tile": "2x2",
+        "power_kw": 18
+      },
+      "bytes": 244196
+    },
+    {
+      "id": "hydraulic_press",
+      "category": "process",
+      "glb": "glb/hydraulic_press.glb",
+      "obj": "obj/hydraulic_press.obj",
+      "preview": "preview/hydraulic_press.png",
+      "size_voxels": [
+        48,
+        48,
+        102
+      ],
+      "size_m": [
+        1.5,
+        3.1875,
+        1.5
+      ],
+      "footprint_m": [
+        1.5,
+        1.5
+      ],
+      "height_m": 3.1875,
+      "tris": 2530,
+      "verts": 5060,
+      "aabb": {
+        "min": [
+          -0.75,
+          0.0,
+          -0.75
+        ],
+        "max": [
+          0.75,
+          3.1875,
+          0.75
+        ]
+      },
+      "ports": [
+        {
+          "name": "in",
+          "pos": [
+            -0.75,
+            0.5,
+            -0.0
+          ],
+          "dir": [
+            -1,
+            0,
+            0
+          ],
+          "type": "item",
+          "note": ""
+        },
+        {
+          "name": "out",
+          "pos": [
+            0.75,
+            0.5,
+            -0.0
+          ],
+          "dir": [
+            1,
+            0,
+            0
+          ],
+          "type": "item",
+          "note": ""
+        },
+        {
+          "name": "power",
+          "pos": [
+            0.0,
+            0.375,
+            -0.75
+          ],
+          "dir": [
+            0,
+            0,
+            -1
+          ],
+          "type": "power",
+          "note": ""
+        },
+        {
+          "name": "hydraulic",
+          "pos": [
+            0.0,
+            3.0,
+            -0.0
+          ],
+          "dir": [
+            0,
+            1,
+            0
+          ],
+          "type": "fluid",
+          "note": ""
+        }
+      ],
+      "meta": {
+        "category": "process",
+        "tile": "2x2",
+        "power_kw": 30
+      },
+      "bytes": 214152
+    },
+    {
+      "id": "motor",
+      "category": "power",
+      "glb": "glb/motor.glb",
+      "obj": "obj/motor.obj",
+      "preview": "preview/motor.png",
+      "size_voxels": [
+        66,
+        40,
+        57
+      ],
+      "size_m": [
+        2.0625,
+        1.7812,
+        1.25
+      ],
+      "footprint_m": [
+        2.0625,
+        1.25
+      ],
+      "height_m": 1.7812,
+      "tris": 5920,
+      "verts": 11840,
+      "aabb": {
+        "min": [
+          -1.0312,
+          0.0,
+          -0.625
+        ],
+        "max": [
+          1.0312,
+          1.7812,
+          0.5312
+        ]
+      },
+      "ports": [
+        {
+          "name": "shaft",
+          "pos": [
+            1.0312,
+            0.6875,
+            -0.0
+          ],
+          "dir": [
+            1,
+            0,
+            0
+          ],
+          "type": "shaft",
+          "note": "drive end"
+        },
+        {
+          "name": "power",
+          "pos": [
+            -0.0312,
+            1.5625,
+            0.125
+          ],
+          "dir": [
+            0,
+            1,
+            0
+          ],
+          "type": "power",
+          "note": ""
+        }
+      ],
+      "meta": {
+        "category": "power",
+        "tile": "2x1",
+        "power_kw": 22
+      },
+      "bytes": 498752
+    },
+    {
+      "id": "pump",
+      "category": "fluids",
+      "glb": "glb/pump.glb",
+      "obj": "obj/pump.obj",
+      "preview": "preview/pump.png",
+      "size_voxels": [
+        60,
+        37,
+        58
+      ],
+      "size_m": [
+        1.875,
+        1.8125,
+        1.1562
+      ],
+      "footprint_m": [
+        1.875,
+        1.1562
+      ],
+      "height_m": 1.8125,
+      "tris": 4258,
+      "verts": 8516,
+      "aabb": {
+        "min": [
+          -0.9375,
+          0.0,
+          -0.5781
+        ],
+        "max": [
+          0.9375,
+          1.8125,
+          0.5781
+        ]
+      },
+      "ports": [
+        {
+          "name": "suction",
+          "pos": [
+            -0.9375,
+            0.75,
+            -0.0469
+          ],
+          "dir": [
+            -1,
+            0,
+            0
+          ],
+          "type": "fluid",
+          "note": ""
+        },
+        {
+          "name": "discharge",
+          "pos": [
+            -0.375,
+            1.8125,
+            -0.0469
+          ],
+          "dir": [
+            0,
+            1,
+            0
+          ],
+          "type": "fluid",
+          "note": ""
+        },
+        {
+          "name": "power",
+          "pos": [
+            0.5,
+            1.25,
+            -0.0469
+          ],
+          "dir": [
+            0,
+            1,
+            0
+          ],
+          "type": "power",
+          "note": ""
+        }
+      ],
+      "meta": {
+        "category": "fluids",
+        "tile": "2x1",
+        "power_kw": 11
+      },
+      "bytes": 359232
+    },
+    {
+      "id": "compressor",
+      "category": "fluids",
+      "glb": "glb/compressor.glb",
+      "obj": "obj/compressor.obj",
+      "preview": "preview/compressor.png",
+      "size_voxels": [
+        64,
+        44,
+        52
+      ],
+      "size_m": [
+        2.0,
+        1.625,
+        1.375
+      ],
+      "footprint_m": [
+        2.0,
+        1.375
+      ],
+      "height_m": 1.625,
+      "tris": 2764,
+      "verts": 5528,
+      "aabb": {
+        "min": [
+          -1.0,
+          0.0,
+          -0.6875
+        ],
+        "max": [
+          1.0,
+          1.625,
+          0.6875
+        ]
+      },
+      "ports": [
+        {
+          "name": "in",
+          "pos": [
+            -1.0,
+            0.625,
+            -0.0625
+          ],
+          "dir": [
+            -1,
+            0,
+            0
+          ],
+          "type": "power",
+          "note": "electrical feed"
+        },
+        {
+          "name": "air_out",
+          "pos": [
+            0.5625,
+            1.0625,
+            -0.4375
+          ],
+          "dir": [
+            0,
+            1,
+            0
+          ],
+          "type": "gas",
+          "note": ""
+        },
+        {
+          "name": "power",
+          "pos": [
+            -0.4375,
+            1.0625,
+            0.6875
+          ],
+          "dir": [
+            0,
+            0,
+            1
+          ],
+          "type": "power",
+          "note": ""
+        }
+      ],
+      "meta": {
+        "category": "fluids",
+        "tile": "2x2",
+        "power_kw": 15
+      },
+      "bytes": 233740
+    },
+    {
+      "id": "generator",
+      "category": "power",
+      "glb": "glb/generator.glb",
+      "obj": "obj/generator.obj",
+      "preview": "preview/generator.png",
+      "size_voxels": [
+        80,
+        48,
+        72
+      ],
+      "size_m": [
+        2.5,
+        2.25,
+        1.5
+      ],
+      "footprint_m": [
+        2.5,
+        1.5
+      ],
+      "height_m": 2.25,
+      "tris": 2450,
+      "verts": 4900,
+      "aabb": {
+        "min": [
+          -1.25,
+          0.0,
+          -0.75
+        ],
+        "max": [
+          1.25,
+          2.25,
+          0.75
+        ]
+      },
+      "ports": [
+        {
+          "name": "power_out",
+          "pos": [
+            1.25,
+            0.625,
+            -0.0
+          ],
+          "dir": [
+            1,
+            0,
+            0
+          ],
+          "type": "power",
+          "note": "generator terminals"
+        },
+        {
+          "name": "exhaust",
+          "pos": [
+            -0.75,
+            2.25,
+            -0.5
+          ],
+          "dir": [
+            0,
+            1,
+            0
+          ],
+          "type": "gas",
+          "note": ""
+        },
+        {
+          "name": "fuel",
+          "pos": [
+            0.75,
+            1.75,
+            -0.5
+          ],
+          "dir": [
+            0,
+            1,
+            0
+          ],
+          "type": "fluid",
+          "note": ""
+        }
+      ],
+      "meta": {
+        "category": "power",
+        "tile": "3x2",
+        "power_kw": -320
+      },
+      "bytes": 207356
+    },
+    {
+      "id": "boiler",
+      "category": "fluids",
+      "glb": "glb/boiler.glb",
+      "obj": "obj/boiler.obj",
+      "preview": "preview/boiler.png",
+      "size_voxels": [
+        56,
+        57,
+        100
+      ],
+      "size_m": [
+        1.75,
+        3.125,
+        1.7812
+      ],
+      "footprint_m": [
+        1.75,
+        1.7812
+      ],
+      "height_m": 3.125,
+      "tris": 7794,
+      "verts": 15588,
+      "aabb": {
+        "min": [
+          -0.875,
+          0.0,
+          -0.8906
+        ],
+        "max": [
+          0.875,
+          3.125,
+          0.8906
+        ]
+      },
+      "ports": [
+        {
+          "name": "water_in",
+          "pos": [
+            -0.875,
+            1.875,
+            0.0156
+          ],
+          "dir": [
+            -1,
+            0,
+            0
+          ],
+          "type": "fluid",
+          "note": ""
+        },
+        {
+          "name": "steam_out",
+          "pos": [
+            0.375,
+            3.125,
+            -0.6094
+          ],
+          "dir": [
+            0,
+            1,
+            0
+          ],
+          "type": "gas",
+          "note": ""
+        },
+        {
+          "name": "fuel",
+          "pos": [
+            -0.875,
+            0.5,
+            0.1406
+          ],
+          "dir": [
+            -1,
+            0,
+            0
+          ],
+          "type": "fluid",
+          "note": ""
+        }
+      ],
+      "meta": {
+        "category": "fluids",
+        "tile": "2x2",
+        "power_kw": 4
+      },
+      "bytes": 656260
+    },
+    {
+      "id": "control_cabinet",
+      "category": "control",
+      "glb": "glb/control_cabinet.glb",
+      "obj": "obj/control_cabinet.obj",
+      "preview": "preview/control_cabinet.png",
+      "size_voxels": [
+        32,
+        20,
+        60
+      ],
+      "size_m": [
+        1.0,
+        1.875,
+        0.625
+      ],
+      "footprint_m": [
+        1.0,
+        0.625
+      ],
+      "height_m": 1.875,
+      "tris": 1206,
+      "verts": 2412,
+      "aabb": {
+        "min": [
+          -0.5,
+          0.0,
+          -0.3125
+        ],
+        "max": [
+          0.5,
+          1.875,
+          0.3125
+        ]
+      },
+      "ports": [
+        {
+          "name": "power_in",
+          "pos": [
+            0.5,
+            0.75,
+            -0.0
+          ],
+          "dir": [
+            1,
+            0,
+            0
+          ],
+          "type": "power",
+          "note": ""
+        },
+        {
+          "name": "signal",
+          "pos": [
+            0.0,
+            1.9375,
+            -0.125
+          ],
+          "dir": [
+            0,
+            1,
+            0
+          ],
+          "type": "data",
+          "note": ""
+        }
+      ],
+      "meta": {
+        "category": "control",
+        "tile": "1x1"
+      },
+      "bytes": 102760
+    },
+    {
+      "id": "operator_console",
+      "category": "control",
+      "glb": "glb/operator_console.glb",
+      "obj": "obj/operator_console.obj",
+      "preview": "preview/operator_console.png",
+      "size_voxels": [
+        44,
+        24,
+        44
+      ],
+      "size_m": [
+        1.375,
+        1.375,
+        0.75
+      ],
+      "footprint_m": [
+        1.375,
+        0.75
+      ],
+      "height_m": 1.375,
+      "tris": 840,
+      "verts": 1680,
+      "aabb": {
+        "min": [
+          -0.6875,
+          0.0,
+          -0.375
+        ],
+        "max": [
+          0.6875,
+          1.375,
+          0.375
+        ]
+      },
+      "ports": [
+        {
+          "name": "power",
+          "pos": [
+            0.6875,
+            0.375,
+            -0.0
+          ],
+          "dir": [
+            1,
+            0,
+            0
+          ],
+          "type": "power",
+          "note": ""
+        },
+        {
+          "name": "data",
+          "pos": [
+            0.0,
+            0.25,
+            -0.375
+          ],
+          "dir": [
+            0,
+            0,
+            -1
+          ],
+          "type": "data",
+          "note": ""
+        }
+      ],
+      "meta": {
+        "category": "control",
+        "tile": "1x1"
+      },
+      "bytes": 72016
+    },
+    {
+      "id": "pipe_straight",
+      "category": "logistics",
+      "glb": "glb/pipe_straight.glb",
+      "obj": "obj/pipe_straight.obj",
+      "preview": "preview/pipe_straight.png",
+      "size_voxels": [
+        64,
+        30,
+        46
+      ],
+      "size_m": [
+        2.0,
+        1.4375,
+        0.9375
+      ],
+      "footprint_m": [
+        2.0,
+        0.9375
+      ],
+      "height_m": 1.4375,
+      "tris": 2610,
+      "verts": 5220,
+      "aabb": {
+        "min": [
+          -1.0,
+          0.0,
+          -0.4375
+        ],
+        "max": [
+          1.0,
+          1.4375,
+          0.4375
+        ]
+      },
+      "ports": [
+        {
+          "name": "a",
+          "pos": [
+            -1.0,
+            1.0,
+            -0.0
+          ],
+          "dir": [
+            -1,
+            0,
+            0
+          ],
+          "type": "fluid",
+          "note": ""
+        },
+        {
+          "name": "b",
+          "pos": [
+            1.0,
+            1.0,
+            -0.0
+          ],
+          "dir": [
+            1,
+            0,
+            0
+          ],
+          "type": "fluid",
+          "note": ""
+        }
+      ],
+      "meta": {
+        "category": "logistics",
+        "tile": "2x1",
+        "snap": 32,
+        "inner_radius": 0.0937,
+        "tile_voxels": [
+          64,
+          32
+        ]
+      },
+      "bytes": 220732
+    },
+    {
+      "id": "pipe_elbow",
+      "category": "logistics",
+      "glb": "glb/pipe_elbow.glb",
+      "obj": "obj/pipe_elbow.obj",
+      "preview": "preview/pipe_elbow.png",
+      "size_voxels": [
+        46,
+        64,
+        46
+      ],
+      "size_m": [
+        1.4375,
+        1.4375,
+        2.0
+      ],
+      "footprint_m": [
+        1.4375,
+        2.0
+      ],
+      "height_m": 1.4375,
+      "tris": 3660,
+      "verts": 7320,
+      "aabb": {
+        "min": [
+          -1.0,
+          0.0,
+          -1.0
+        ],
+        "max": [
+          0.4375,
+          1.4375,
+          0.9375
+        ]
+      },
+      "ports": [
+        {
+          "name": "a",
+          "pos": [
+            -1.0,
+            1.0,
+            0.5
+          ],
+          "dir": [
+            -1,
+            0,
+            0
+          ],
+          "type": "fluid",
+          "note": ""
+        },
+        {
+          "name": "b",
+          "pos": [
+            0.0,
+            1.0,
+            -1.0
+          ],
+          "dir": [
+            0,
+            0,
+            -1
+          ],
+          "type": "fluid",
+          "note": ""
+        }
+      ],
+      "meta": {
+        "category": "logistics",
+        "tile": "2x2",
+        "snap": 32,
+        "kind": "elbow",
+        "tile_voxels": [
+          64,
+          64
+        ]
+      },
+      "bytes": 308916
+    },
+    {
+      "id": "pipe_tee",
+      "category": "logistics",
+      "glb": "glb/pipe_tee.glb",
+      "obj": "obj/pipe_tee.obj",
+      "preview": "preview/pipe_tee.png",
+      "size_voxels": [
+        64,
+        30,
+        60
+      ],
+      "size_m": [
+        2.0,
+        1.875,
+        0.9375
+      ],
+      "footprint_m": [
+        2.0,
+        0.9375
+      ],
+      "height_m": 1.875,
+      "tris": 2072,
+      "verts": 4144,
+      "aabb": {
+        "min": [
+          -1.0,
+          0.0,
+          -0.4375
+        ],
+        "max": [
+          1.0,
+          1.875,
+          0.4375
+        ]
+      },
+      "ports": [
+        {
+          "name": "a",
+          "pos": [
+            -1.0,
+            1.0,
+            -0.0
+          ],
+          "dir": [
+            -1,
+            0,
+            0
+          ],
+          "type": "fluid",
+          "note": ""
+        },
+        {
+          "name": "b",
+          "pos": [
+            1.0,
+            1.0,
+            -0.0
+          ],
+          "dir": [
+            1,
+            0,
+            0
+          ],
+          "type": "fluid",
+          "note": ""
+        },
+        {
+          "name": "branch",
+          "pos": [
+            0.0,
+            1.875,
+            -0.0
+          ],
+          "dir": [
+            0,
+            1,
+            0
+          ],
+          "type": "fluid",
+          "note": ""
+        }
+      ],
+      "meta": {
+        "category": "logistics",
+        "tile": "2x1",
+        "snap": 32,
+        "kind": "tee",
+        "tile_voxels": [
+          64,
+          32
+        ]
+      },
+      "bytes": 175600
+    },
+    {
+      "id": "valve",
+      "category": "logistics",
+      "glb": "glb/valve.glb",
+      "obj": "obj/valve.obj",
+      "preview": "preview/valve.png",
+      "size_voxels": [
+        64,
+        30,
+        52
+      ],
+      "size_m": [
+        2.0,
+        1.625,
+        0.9375
+      ],
+      "footprint_m": [
+        2.0,
+        0.9375
+      ],
+      "height_m": 1.625,
+      "tris": 2414,
+      "verts": 4828,
+      "aabb": {
+        "min": [
+          -1.0,
+          0.4375,
+          -0.4375
+        ],
+        "max": [
+          1.0,
+          1.625,
+          0.4375
+        ]
+      },
+      "ports": [
+        {
+          "name": "a",
+          "pos": [
+            -1.0,
+            1.0,
+            -0.0
+          ],
+          "dir": [
+            -1,
+            0,
+            0
+          ],
+          "type": "fluid",
+          "note": ""
+        },
+        {
+          "name": "b",
+          "pos": [
+            1.0,
+            1.0,
+            -0.0
+          ],
+          "dir": [
+            1,
+            0,
+            0
+          ],
+          "type": "fluid",
+          "note": ""
+        }
+      ],
+      "meta": {
+        "category": "logistics",
+        "tile": "2x1",
+        "snap": 32,
+        "kind": "valve",
+        "tile_voxels": [
+          64,
+          32
+        ]
+      },
+      "bytes": 204240
+    },
+    {
+      "id": "water_tank",
+      "category": "storage",
+      "glb": "glb/water_tank.glb",
+      "obj": "obj/water_tank.obj",
+      "preview": "preview/water_tank.png",
+      "size_voxels": [
+        64,
+        64,
+        96
+      ],
+      "size_m": [
+        2.0,
+        3.0,
+        2.0
+      ],
+      "footprint_m": [
+        2.0,
+        2.0
+      ],
+      "height_m": 3.0,
+      "tris": 8746,
+      "verts": 17492,
+      "aabb": {
+        "min": [
+          -1.0,
+          0.0,
+          -1.0
+        ],
+        "max": [
+          1.0,
+          3.0,
+          1.0
+        ]
+      },
+      "ports": [
+        {
+          "name": "in",
+          "pos": [
+            -1.0,
+            0.625,
+            -0.0
+          ],
+          "dir": [
+            -1,
+            0,
+            0
+          ],
+          "type": "fluid",
+          "note": "fill nozzle"
+        },
+        {
+          "name": "out",
+          "pos": [
+            0.5,
+            0.75,
+            -0.5
+          ],
+          "dir": [
+            0,
+            -1,
+            0
+          ],
+          "type": "fluid",
+          "note": "drain"
+        },
+        {
+          "name": "vent",
+          "pos": [
+            -0.375,
+            3.0,
+            -0.0
+          ],
+          "dir": [
+            0,
+            1,
+            0
+          ],
+          "type": "gas",
+          "note": ""
+        }
+      ],
+      "meta": {
+        "category": "storage",
+        "tile": "2x2",
+        "capacity_l": 24000
+      },
+      "bytes": 736216
+    },
+    {
+      "id": "gas_tank",
+      "category": "storage",
+      "glb": "glb/gas_tank.glb",
+      "obj": "obj/gas_tank.obj",
+      "preview": "preview/gas_tank.png",
+      "size_voxels": [
+        96,
+        52,
+        64
+      ],
+      "size_m": [
+        3.0,
+        2.0,
+        1.625
+      ],
+      "footprint_m": [
+        3.0,
+        1.625
+      ],
+      "height_m": 2.0,
+      "tris": 7664,
+      "verts": 15328,
+      "aabb": {
+        "min": [
+          -1.5,
+          0.0,
+          -0.8125
+        ],
+        "max": [
+          1.5,
+          2.0,
+          0.6875
+        ]
+      },
+      "ports": [
+        {
+          "name": "in",
+          "pos": [
+            -1.5,
+            0.8125,
+            -0.0625
+          ],
+          "dir": [
+            -1,
+            0,
+            0
+          ],
+          "type": "gas",
+          "note": "fill point"
+        },
+        {
+          "name": "out",
+          "pos": [
+            0.0,
+            1.9375,
+            -0.0625
+          ],
+          "dir": [
+            0,
+            1,
+            0
+          ],
+          "type": "gas",
+          "note": "vapour take-off"
+        },
+        {
+          "name": "drain",
+          "pos": [
+            -0.25,
+            0.375,
+            -0.0625
+          ],
+          "dir": [
+            0,
+            -1,
+            0
+          ],
+          "type": "fluid",
+          "note": ""
+        }
+      ],
+      "meta": {
+        "category": "storage",
+        "tile": "3x2",
+        "capacity_l": 18000
+      },
+      "bytes": 645348
+    },
+    {
+      "id": "silo",
+      "category": "storage",
+      "glb": "glb/silo.glb",
+      "obj": "obj/silo.obj",
+      "preview": "preview/silo.png",
+      "size_voxels": [
+        64,
+        64,
+        106
+      ],
+      "size_m": [
+        2.0,
+        3.3125,
+        2.0
+      ],
+      "footprint_m": [
+        2.0,
+        2.0
+      ],
+      "height_m": 3.3125,
+      "tris": 9154,
+      "verts": 18308,
+      "aabb": {
+        "min": [
+          -1.0,
+          0.0,
+          -1.0
+        ],
+        "max": [
+          1.0,
+          3.3125,
+          1.0
+        ]
+      },
+      "ports": [
+        {
+          "name": "in",
+          "pos": [
+            0.0,
+            2.5,
+            -1.0
+          ],
+          "dir": [
+            0,
+            0,
+            -1
+          ],
+          "type": "item",
+          "note": "pneumatic fill line"
+        },
+        {
+          "name": "out",
+          "pos": [
+            0.0,
+            0.0,
+            -0.0
+          ],
+          "dir": [
+            0,
+            -1,
+            0
+          ],
+          "type": "item",
+          "note": "gravity discharge"
+        }
+      ],
+      "meta": {
+        "category": "storage",
+        "tile": "2x2",
+        "capacity_l": 30000
+      },
+      "bytes": 770404
+    },
+    {
+      "id": "air_receiver",
+      "category": "fluids",
+      "glb": "glb/air_receiver.glb",
+      "obj": "obj/air_receiver.obj",
+      "preview": "preview/air_receiver.png",
+      "size_voxels": [
+        36,
+        36,
+        72
+      ],
+      "size_m": [
+        1.125,
+        2.25,
+        1.125
+      ],
+      "footprint_m": [
+        1.125,
+        1.125
+      ],
+      "height_m": 2.25,
+      "tris": 3442,
+      "verts": 6884,
+      "aabb": {
+        "min": [
+          -0.5625,
+          0.0,
+          -0.5625
+        ],
+        "max": [
+          0.5625,
+          2.25,
+          0.5625
+        ]
+      },
+      "ports": [
+        {
+          "name": "in",
+          "pos": [
+            -0.5625,
+            0.5625,
+            -0.0
+          ],
+          "dir": [
+            -1,
+            0,
+            0
+          ],
+          "type": "gas",
+          "note": ""
+        },
+        {
+          "name": "out",
+          "pos": [
+            0.5625,
+            0.5625,
+            -0.0
+          ],
+          "dir": [
+            1,
+            0,
+            0
+          ],
+          "type": "gas",
+          "note": ""
+        }
+      ],
+      "meta": {
+        "category": "fluids",
+        "tile": "1x1",
+        "capacity_l": 900
+      },
+      "bytes": 290592
+    },
+    {
+      "id": "barrel",
+      "category": "props",
+      "glb": "glb/barrel.glb",
+      "obj": "obj/barrel.obj",
+      "preview": "preview/barrel.png",
+      "size_voxels": [
+        20,
+        20,
+        36
+      ],
+      "size_m": [
+        0.625,
+        1.125,
+        0.625
+      ],
+      "footprint_m": [
+        0.625,
+        0.625
+      ],
+      "height_m": 1.125,
+      "tris": 1650,
+      "verts": 3300,
+      "aabb": {
+        "min": [
+          -0.3125,
+          0.0,
+          -0.3125
+        ],
+        "max": [
+          0.3125,
+          1.125,
+          0.3125
+        ]
+      },
+      "ports": [
+        {
+          "name": "in",
+          "pos": [
+            0.0,
+            1.125,
+            -0.0
+          ],
+          "dir": [
+            0,
+            1,
+            0
+          ],
+          "type": "fluid",
+          "note": ""
+        }
+      ],
+      "meta": {
+        "category": "props",
+        "tile": "1x1",
+        "capacity_l": 200
+      },
+      "bytes": 139956
+    },
+    {
+      "id": "robot_arm",
+      "category": "robotics",
+      "glb": "glb/robot_arm.glb",
+      "obj": "obj/robot_arm.obj",
+      "preview": "preview/robot_arm.png",
+      "size_voxels": [
+        48,
+        48,
+        90
+      ],
+      "size_m": [
+        1.5,
+        2.8125,
+        1.5
+      ],
+      "footprint_m": [
+        1.5,
+        1.5
+      ],
+      "height_m": 2.8125,
+      "tris": 4032,
+      "verts": 8064,
+      "aabb": {
+        "min": [
+          -0.75,
+          0.0,
+          -0.75
+        ],
+        "max": [
+          0.75,
+          2.8125,
+          0.75
+        ]
+      },
+      "ports": [
+        {
+          "name": "grasp",
+          "pos": [
+            0.0,
+            2.75,
+            -0.0
+          ],
+          "dir": [
+            0,
+            -1,
+            0
+          ],
+          "type": "grasp",
+          "note": "tool centre point"
+        },
+        {
+          "name": "power",
+          "pos": [
+            0.5,
+            0.125,
+            -0.5
+          ],
+          "dir": [
+            0,
+            -1,
+            0
+          ],
+          "type": "power",
+          "note": ""
+        }
+      ],
+      "meta": {
+        "category": "robotics",
+        "tile": "1x1",
+        "reach_m": 1.4,
+        "payload_kg": 12,
+        "preview_pose": {
+          "turret": -40,
+          "shoulder": 58,
+          "elbow": 14,
+          "wrist": -58,
+          "gripper": 15
+        }
+      },
+      "bytes": 345020,
+      "rig": "rigs/robot_arm.json",
+      "parts": [
+        "base",
+        "turret",
+        "shoulder",
+        "elbow",
+        "wrist",
+        "gripper"
+      ]
+    },
+    {
+      "id": "agv",
+      "category": "robotics",
+      "glb": "glb/agv.glb",
+      "obj": "obj/agv.obj",
+      "preview": "preview/agv.png",
+      "size_voxels": [
+        47,
+        32,
+        24
+      ],
+      "size_m": [
+        1.4688,
+        0.75,
+        1.0
+      ],
+      "footprint_m": [
+        1.4688,
+        1.0
+      ],
+      "height_m": 0.75,
+      "tris": 1182,
+      "verts": 2364,
+      "aabb": {
+        "min": [
+          -0.6719,
+          0.0,
+          -0.5
+        ],
+        "max": [
+          0.7344,
+          0.75,
+          0.4688
+        ]
+      },
+      "ports": [
+        {
+          "name": "deck",
+          "pos": [
+            0.0156,
+            0.4375,
+            -0.0
+          ],
+          "dir": [
+            0,
+            1,
+            0
+          ],
+          "type": "item",
+          "note": "load deck"
+        },
+        {
+          "name": "power",
+          "pos": [
+            0.0156,
+            0.0,
+            -0.0
+          ],
+          "dir": [
+            0,
+            -1,
+            0
+          ],
+          "type": "power",
+          "note": "inductive charging pad"
+        }
+      ],
+      "meta": {
+        "category": "robotics",
+        "tile": "2x1",
+        "speed_mps": 1.2
+      },
+      "bytes": 100764
+    },
+    {
+      "id": "safety_fence",
+      "category": "safety",
+      "glb": "glb/safety_fence.glb",
+      "obj": "obj/safety_fence.obj",
+      "preview": "preview/safety_fence.png",
+      "size_voxels": [
+        66,
+        6,
+        56
+      ],
+      "size_m": [
+        2.0625,
+        1.75,
+        0.1875
+      ],
+      "footprint_m": [
+        2.0625,
+        0.1875
+      ],
+      "height_m": 1.75,
+      "tris": 1468,
+      "verts": 2936,
+      "aabb": {
+        "min": [
+          -1.0312,
+          0.0,
+          -0.0938
+        ],
+        "max": [
+          1.0312,
+          1.75,
+          0.0938
+        ]
+      },
+      "ports": [
+        {
+          "name": "hinge",
+          "pos": [
+            0.9688,
+            0.875,
+            0.0312
+          ],
+          "dir": [
+            1,
+            0,
+            0
+          ],
+          "type": "mechanical",
+          "note": "gate hinge point"
+        }
+      ],
+      "meta": {
+        "category": "safety",
+        "tile": "2x1"
+      },
+      "bytes": 124704
+    },
+    {
+      "id": "storage_rack",
+      "category": "storage",
+      "glb": "glb/storage_rack.glb",
+      "obj": "obj/storage_rack.obj",
+      "preview": "preview/storage_rack.png",
+      "size_voxels": [
+        64,
+        32,
+        99
+      ],
+      "size_m": [
+        2.0,
+        3.0938,
+        1.0
+      ],
+      "footprint_m": [
+        2.0,
+        1.0
+      ],
+      "height_m": 3.0938,
+      "tris": 2288,
+      "verts": 4576,
+      "aabb": {
+        "min": [
+          -1.0,
+          0.0,
+          -0.5
+        ],
+        "max": [
+          1.0,
+          3.0938,
+          0.5
+        ]
+      },
+      "ports": [
+        {
+          "name": "slot_a",
+          "pos": [
+            -0.625,
+            0.1875,
+            -0.0
+          ],
+          "dir": [
+            0,
+            1,
+            0
+          ],
+          "type": "item",
+          "note": "floor pick face"
+        },
+        {
+          "name": "slot_b",
+          "pos": [
+            -0.625,
+            1.1875,
+            -0.0
+          ],
+          "dir": [
+            0,
+            1,
+            0
+          ],
+          "type": "item",
+          "note": ""
+        }
+      ],
+      "meta": {
+        "category": "storage",
+        "tile": "2x1",
+        "bays": 2,
+        "capacity_kg": 2200
+      },
+      "bytes": 193680
+    },
+    {
+      "id": "power_transformer",
+      "category": "power",
+      "glb": "glb/power_transformer.glb",
+      "obj": "obj/power_transformer.obj",
+      "preview": "preview/power_transformer.png",
+      "size_voxels": [
+        48,
+        48,
+        58
+      ],
+      "size_m": [
+        1.5,
+        1.8125,
+        1.5
+      ],
+      "footprint_m": [
+        1.5,
+        1.5
+      ],
+      "height_m": 1.8125,
+      "tris": 2594,
+      "verts": 5188,
+      "aabb": {
+        "min": [
+          -0.75,
+          0.0,
+          -0.75
+        ],
+        "max": [
+          0.75,
+          1.8125,
+          0.75
+        ]
+      },
+      "ports": [
+        {
+          "name": "hv_in",
+          "pos": [
+            -0.375,
+            1.875,
+            0.3125
+          ],
+          "dir": [
+            0,
+            1,
+            0
+          ],
+          "type": "power",
+          "note": "high voltage feed"
+        },
+        {
+          "name": "lv_out",
+          "pos": [
+            0.375,
+            0.375,
+            -0.625
+          ],
+          "dir": [
+            0,
+            0,
+            -1
+          ],
+          "type": "power",
+          "note": "400 V distribution"
+        }
+      ],
+      "meta": {
+        "category": "power",
+        "tile": "1x1",
+        "rating_kva": 630
+      },
+      "bytes": 219412
+    },
+    {
+      "id": "cooling_chiller",
+      "category": "fluids",
+      "glb": "glb/cooling_chiller.glb",
+      "obj": "obj/cooling_chiller.obj",
+      "preview": "preview/cooling_chiller.png",
+      "size_voxels": [
+        64,
+        48,
+        42
+      ],
+      "size_m": [
+        2.0,
+        1.3125,
+        1.5
+      ],
+      "footprint_m": [
+        2.0,
+        1.5
+      ],
+      "height_m": 1.3125,
+      "tris": 2322,
+      "verts": 4644,
+      "aabb": {
+        "min": [
+          -1.0,
+          0.0,
+          -0.75
+        ],
+        "max": [
+          1.0,
+          1.3125,
+          0.75
+        ]
+      },
+      "ports": [
+        {
+          "name": "water_in",
+          "pos": [
+            -1.0,
+            0.625,
+            -0.5
+          ],
+          "dir": [
+            -1,
+            0,
+            0
+          ],
+          "type": "fluid",
+          "note": ""
+        },
+        {
+          "name": "water_out",
+          "pos": [
+            1.0,
+            0.625,
+            -0.5
+          ],
+          "dir": [
+            1,
+            0,
+            0
+          ],
+          "type": "fluid",
+          "note": ""
+        },
+        {
+          "name": "power",
+          "pos": [
+            0.0,
+            0.5,
+            -0.75
+          ],
+          "dir": [
+            0,
+            0,
+            -1
+          ],
+          "type": "power",
+          "note": ""
+        }
+      ],
+      "meta": {
+        "category": "fluids",
+        "tile": "2x2",
+        "power_kw": 22,
+        "cooling_kw": 120
+      },
+      "bytes": 196620
+    },
+    {
+      "id": "pallet",
+      "category": "props",
+      "glb": "glb/pallet.glb",
+      "obj": "obj/pallet.obj",
+      "preview": "preview/pallet.png",
+      "size_voxels": [
+        32,
+        32,
+        9
+      ],
+      "size_m": [
+        1.0,
+        0.2812,
+        1.0
+      ],
+      "footprint_m": [
+        1.0,
+        1.0
+      ],
+      "height_m": 0.2812,
+      "tris": 816,
+      "verts": 1632,
+      "aabb": {
+        "min": [
+          -0.5,
+          0.0,
+          -0.5
+        ],
+        "max": [
+          0.5,
+          0.2812,
+          0.5
+        ]
+      },
+      "ports": [],
+      "meta": {
+        "category": "props",
+        "tile": "1x1",
+        "mass_kg": 22
+      },
+      "bytes": 69788
+    },
+    {
+      "id": "crate",
+      "category": "props",
+      "glb": "glb/crate.glb",
+      "obj": "obj/crate.obj",
+      "preview": "preview/crate.png",
+      "size_voxels": [
+        32,
+        32,
+        26
+      ],
+      "size_m": [
+        1.0,
+        0.8125,
+        1.0
+      ],
+      "footprint_m": [
+        1.0,
+        1.0
+      ],
+      "height_m": 0.8125,
+      "tris": 1322,
+      "verts": 2644,
+      "aabb": {
+        "min": [
+          -0.5,
+          0.0,
+          -0.5
+        ],
+        "max": [
+          0.5,
+          0.8125,
+          0.5
+        ]
+      },
+      "ports": [],
+      "meta": {
+        "category": "props",
+        "tile": "1x1",
+        "mass_kg": 40
+      },
+      "bytes": 112292
+    },
+    {
+      "id": "cardboard_boxes",
+      "category": "props",
+      "glb": "glb/cardboard_boxes.glb",
+      "obj": "obj/cardboard_boxes.obj",
+      "preview": "preview/cardboard_boxes.png",
+      "size_voxels": [
+        32,
+        32,
+        20
+      ],
+      "size_m": [
+        1.0,
+        0.625,
+        1.0
+      ],
+      "footprint_m": [
+        1.0,
+        1.0
+      ],
+      "height_m": 0.625,
+      "tris": 674,
+      "verts": 1348,
+      "aabb": {
+        "min": [
+          -0.5,
+          0.0,
+          -0.5
+        ],
+        "max": [
+          0.5,
+          0.625,
+          0.5
+        ]
+      },
+      "ports": [],
+      "meta": {
+        "category": "props",
+        "tile": "1x1"
+      },
+      "bytes": 57872
+    }
+  ]
+}

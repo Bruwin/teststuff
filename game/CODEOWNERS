@@ -1,0 +1,22 @@
+# Ownership map (AGT-09, AGENT_PROTOCOL.md section 6).
+# Placeholders must be replaced with real GitHub handles when the repo is created.
+# Until then every path falls back to the default owner.
+
+*                                   @fct-arch
+
+/plan/                              @fct-arch
+/src/core/                          @fct-core
+/src/platform/                      @fct-core
+/src/rhi/                           @fct-gfx
+/src/render/                        @fct-gfx
+/src/physics/                       @fct-phys
+/src/sim/                           @fct-sim
+/src/game/                          @fct-game
+/src/ui/                            @fct-ui
+/src/net/                           @fct-net
+/src/app/                           @fct-arch
+/data/                              @fct-game
+/tools/                             @fct-tools
+/.github/                           @fct-tools
+/tests/golden/                      @fct-sim
+/tests/net/                         @fct-net

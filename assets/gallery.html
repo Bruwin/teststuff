@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Voxel Factory - asset gallery</title>
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:#14171b; color:#dfe4ea;
+         font:14px/1.5 ui-sans-serif,system-ui,"Segoe UI",Roboto,sans-serif; }
+  header { padding:28px 32px 12px; border-bottom:1px solid #262b32; }
+  h1 { margin:0 0 4px; font-size:20px; letter-spacing:.2px; }
+  header p { margin:0; color:#8d97a3; }
+  nav { display:flex; gap:14px; padding:10px 32px 16px; flex-wrap:wrap; }
+  nav a { color:#8d97a3; text-decoration:none; font-size:12px;
+           text-transform:uppercase; letter-spacing:.08em; }
+  nav a:hover { color:#e7b437; }
+  main { padding:8px 24px 56px; display:grid; gap:16px;
+          grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); }
+  .card { background:#1b1f25; border:1px solid #262b32; border-radius:10px;
+           overflow:hidden; }
+  .thumb { background:#e8eaec; aspect-ratio:520/420; }
+  .thumb img { width:100%; height:100%; display:block; }
+  .body { padding:10px 12px 12px; }
+  h3 { margin:0; font-size:13px; font-weight:600; letter-spacing:.01em; }
+  .specs { margin:3px 0 8px; color:#8d97a3; font-size:11.5px;
+            font-variant-numeric:tabular-nums; }
+  .ports { display:flex; flex-wrap:wrap; gap:4px; margin:0; }
+  .port { font-size:10px; padding:1px 5px; border-radius:4px;
+           background:#232a33; color:#9fb0c0; }
+  .tag.rig { font-size:10px; padding:1px 5px; border-radius:4px;
+              background:#3a2f18; color:#e7b437; }
+</style></head>
+<body>
+<header>
+  <h1>Voxel factory &mdash; asset gallery</h1>
+  <p>36 models &middot; 1 voxel = 6.25 cm &middot; 2 m tile grid &middot; glTF + OBJ</p>
+</header>
+<nav><a href="#control">control</a><a href="#fluids">fluids</a><a href="#logistics">logistics</a><a href="#power">power</a><a href="#process">process</a><a href="#props">props</a><a href="#robotics">robotics</a><a href="#safety">safety</a><a href="#storage">storage</a></nav>
+<main>
+    <article class="card" data-cat="logistics">
+      <div class="thumb"><img src="preview/conveyor_straight.png" alt="conveyor_straight" loading="lazy"></div>
+      <div class="body">
+        <h3>conveyor_straight</h3>
+        <p class="specs">2.00 &times; 1.00 &times; 0.94 m &middot; 1944 tris</p>
+        <p class="ports"><span class="port">in</span><span class="port">out</span><span class="port">power</span></p>
+      </div>
+    </article>
+    <article class="card" data-cat="logistics">
+      <div class="thumb"><img src="preview/conveyor_scanner.png" alt="conveyor_scanner" loading="lazy"></div>
+      <div class="body">
+        <h3>conveyor_scanner</h3>
+        <p class="specs">2.00 &times; 1.03 &times; 2.91 m &middot; 2498 tris</p>
+        <p class="ports"><span class="port">in</span><span class="port">out</span><span class="port">scan</span><span class="port">power</span></p>
+      </div>
+    </article>
+    <article class="card" data-cat="logistics">
+      <div class="thumb"><img src="preview/conveyor_corner.png" alt="conveyor_corner" loading="lazy"></div>
+      <div class="body">
+        <h3>conveyor_corner</h3>
+        <p class="specs">1.75 &times; 2.03 &times; 0.94 m &middot; 2460 tris</p>
+        <p class="ports"><span class="port">in</span><span class="port">out</span></p>
+      </div>
+    </article>
+    <article class="card" data-cat="logistics">
+      <div class="thumb"><img src="preview/conveyor_endstop.png" alt="conveyor_endstop" loading="lazy"></div>
+      <div class="body">
+        <h3>conveyor_endstop</h3>
+        <p class="specs">1.44 &times; 1.00 &times; 1.03 m &middot; 1096 tris</p>
+        <p class="ports"><span class="port">in</span><span class="port">chute</span></p>
+      </div>
+    </article>
+    <article class="card" data-cat="logistics">
+      <div class="thumb"><img src="preview/conveyor_hopper.png" alt="conveyor_hopper" loading="lazy"></div>
+      <div class="body">
+        <h3>conveyor_hopper</h3>
+        <p class="specs">1.78 &times; 1.50 &times; 1.56 m &middot; 980 tris</p>
+        <p class="ports"><span class="port">in</span><span class="port">out</span></p>
+      </div>
+    </article>
+    <article class="card" data-cat="logistics">
+      <div class="thumb"><img src="preview/conveyor_diverter.png" alt="conveyor_diverter" loading="lazy"></div>
+      <div class="body">
+        <h3>conveyor_diverter</h3>
+        <p class="specs">2.00 &times; 1.00 &times; 1.25 m &middot; 2418 tris</p>
+        <p class="ports"><span class="port">in</span><span class="port">out</span><span class="port">reject</span><span class="port">air</span><span class="port">power</span><span class="tag rig">rigged</span></p>
+      </div>
+    </article>
+    <article class="card" data-cat="logistics">
+      <div class="thumb"><img src="preview/conveyor_merge.png" alt="conveyor_merge" loading="lazy"></div>
+      <div class="body">
+        <h3>conveyor_merge</h3>
+        <p class="specs">2.00 &times; 2.00 &times; 1.25 m &middot; 2680 tris</p>
+        <p class="ports"><span class="port">in_main</span><span class="port">in_side</span><span class="port">out</span><span class="port">air</span><span class="port">power</span><span class="tag rig">rigged</span></p>
+      </div>
+    </article>
+    <article class="card" data-cat="logistics">
+      <div class="thumb"><img src="preview/conveyor_gate.png" alt="conveyor_gate" loading="lazy"></div>
+      <div class="body">
+        <h3>conveyor_gate</h3>
+        <p class="specs">1.44 &times; 1.00 &times; 1.25 m &middot; 1678 tris</p>
+        <p class="ports"><span class="port">in</span><span class="port">out</span><span class="port">air</span><span class="tag rig">rigged</span></p>
+      </div>
+    </article>
+    <article class="card" data-cat="process">
+      <div class="thumb"><img src="preview/smelter_furnace.png" alt="smelter_furnace" loading="lazy"></div>
+      <div class="body">
+        <h3>smelter_furnace</h3>
+        <p class="specs">2.00 &times; 2.00 &times; 3.06 m &middot; 5122 tris</p>
+        <p class="ports"><span class="port">charge</span><span class="port">tap</span><span class="port">exhaust</span></p>
+      </div>
+    </article>
+    <article class="card" data-cat="process">
+      <div class="thumb"><img src="preview/assembler.png" alt="assembler" loading="lazy"></div>
+      <div class="body">
+        <h3>assembler</h3>
+        <p class="specs">2.00 &times; 2.00 &times; 2.00 m &middot; 2888 tris</p>
+        <p class="ports"><span class="port">in</span><span class="port">out</span><span class="port">power</span><span class="port">coolant</span></p>
+      </div>
+    </article>
+    <article class="card" data-cat="process">
+      <div class="thumb"><img src="preview/hydraulic_press.png" alt="hydraulic_press" loading="lazy"></div>
+      <div class="body">
+        <h3>hydraulic_press</h3>
+        <p class="specs">1.50 &times; 1.50 &times; 3.19 m &middot; 2530 tris</p>
+        <p class="ports"><span class="port">in</span><span class="port">out</span><span class="port">power</span><span class="port">hydraulic</span></p>
+      </div>
+    </article>
+    <article class="card" data-cat="power">
+      <div class="thumb"><img src="preview/motor.png" alt="motor" loading="lazy"></div>
+      <div class="body">
+        <h3>motor</h3>
+        <p class="specs">2.06 &times; 1.25 &times; 1.78 m &middot; 5920 tris</p>
+        <p class="ports"><span class="port">shaft</span><span class="port">power</span></p>
+      </div>
+    </article>
+    <article class="card" data-cat="fluids">
+      <div class="thumb"><img src="preview/pump.png" alt="pump" loading="lazy"></div>
+      <div class="body">
+        <h3>pump</h3>
+        <p class="specs">1.88 &times; 1.16 &times; 1.81 m &middot; 4258 tris</p>
+        <p class="ports"><span class="port">suction</span><span class="port">discharge</span><span class="port">power</span></p>
+      </div>
+    </article>
+    <article class="card" data-cat="fluids">
+      <div class="thumb"><img src="preview/compressor.png" alt="compressor" loading="lazy"></div>
+      <div class="body">
+        <h3>compressor</h3>
+        <p class="specs">2.00 &times; 1.38 &times; 1.62 m &middot; 2764 tris</p>
+        <p class="ports"><span class="port">in</span><span class="port">air_out</span><span class="port">power</span></p>
+      </div>
+    </article>
+    <article class="card" data-cat="power">
+      <div class="thumb"><img src="preview/generator.png" alt="generator" loading="lazy"></div>
+      <div class="body">
+        <h3>generator</h3>
+        <p class="specs">2.50 &times; 1.50 &times; 2.25 m &middot; 2450 tris</p>
+        <p class="ports"><span class="port">power_out</span><span class="port">exhaust</span><span class="port">fuel</span></p>
+      </div>
+    </article>
+    <article class="card" data-cat="fluids">
+      <div class="thumb"><img src="preview/boiler.png" alt="boiler" loading="lazy"></div>
+      <div class="body">
+        <h3>boiler</h3>
+        <p class="specs">1.75 &times; 1.78 &times; 3.12 m &middot; 7794 tris</p>
+        <p class="ports"><span class="port">water_in</span><span class="port">steam_out</span><span class="port">fuel</span></p>
+      </div>
+    </article>
+    <article class="card" data-cat="control">
+      <div class="thumb"><img src="preview/control_cabinet.png" alt="control_cabinet" loading="lazy"></div>
+      <div class="body">
+        <h3>control_cabinet</h3>
+        <p class="specs">1.00 &times; 0.62 &times; 1.88 m &middot; 1206 tris</p>
+        <p class="ports"><span class="port">power_in</span><span class="port">signal</span></p>
+      </div>
+    </article>
+    <article class="card" data-cat="control">
+      <div class="thumb"><img src="preview/operator_console.png" alt="operator_console" loading="lazy"></div>
+      <div class="body">
+        <h3>operator_console</h3>
+        <p class="specs">1.38 &times; 0.75 &times; 1.38 m &middot; 840 tris</p>
+        <p class="ports"><span class="port">power</span><span class="port">data</span></p>
+      </div>
+    </article>
+    <article class="card" data-cat="logistics">
+      <div class="thumb"><img src="preview/pipe_straight.png" alt="pipe_straight" loading="lazy"></div>
+      <div class="body">
+        <h3>pipe_straight</h3>
+        <p class="specs">2.00 &times; 0.94 &times; 1.44 m &middot; 2610 tris</p>
+        <p class="ports"><span class="port">a</span><span class="port">b</span></p>
+      </div>
+    </article>
+    <article class="card" data-cat="logistics">
+      <div class="thumb"><img src="preview/pipe_elbow.png" alt="pipe_elbow" loading="lazy"></div>
+      <div class="body">
+        <h3>pipe_elbow</h3>
+        <p class="specs">1.44 &times; 2.00 &times; 1.44 m &middot; 3660 tris</p>
+        <p class="ports"><span class="port">a</span><span class="port">b</span></p>
+      </div>
+    </article>
+    <article class="card" data-cat="logistics">
+      <div class="thumb"><img src="preview/pipe_tee.png" alt="pipe_tee" loading="lazy"></div>
+      <div class="body">
+        <h3>pipe_tee</h3>
+        <p class="specs">2.00 &times; 0.94 &times; 1.88 m &middot; 2072 tris</p>
+        <p class="ports"><span class="port">a</span><span class="port">b</span><span class="port">branch</span></p>
+      </div>
+    </article>
+    <article class="card" data-cat="logistics">
+      <div class="thumb"><img src="preview/valve.png" alt="valve" loading="lazy"></div>
+      <div class="body">
+        <h3>valve</h3>
+        <p class="specs">2.00 &times; 0.94 &times; 1.62 m &middot; 2414 tris</p>
+        <p class="ports"><span class="port">a</span><span class="port">b</span></p>
+      </div>
+    </article>
+    <article class="card" data-cat="storage">
+      <div class="thumb"><img src="preview/water_tank.png" alt="water_tank" loading="lazy"></div>
+      <div class="body">
+        <h3>water_tank</h3>
+        <p class="specs">2.00 &times; 2.00 &times; 3.00 m &middot; 8746 tris</p>
+        <p class="ports"><span class="port">in</span><span class="port">out</span><span class="port">vent</span></p>
+      </div>
+    </article>
+    <article class="card" data-cat="storage">
+      <div class="thumb"><img src="preview/gas_tank.png" alt="gas_tank" loading="lazy"></div>
+      <div class="body">
+        <h3>gas_tank</h3>
+        <p class="specs">3.00 &times; 1.62 &times; 2.00 m &middot; 7664 tris</p>
+        <p class="ports"><span class="port">in</span><span class="port">out</span><span class="port">drain</span></p>
+      </div>
+    </article>
+    <article class="card" data-cat="storage">
+      <div class="thumb"><img src="preview/silo.png" alt="silo" loading="lazy"></div>
+      <div class="body">
+        <h3>silo</h3>
+        <p class="specs">2.00 &times; 2.00 &times; 3.31 m &middot; 9154 tris</p>
+        <p class="ports"><span class="port">in</span><span class="port">out</span></p>
+      </div>
+    </article>
+    <article class="card" data-cat="fluids">
+      <div class="thumb"><img src="preview/air_receiver.png" alt="air_receiver" loading="lazy"></div>
+      <div class="body">
+        <h3>air_receiver</h3>
+        <p class="specs">1.12 &times; 1.12 &times; 2.25 m &middot; 3442 tris</p>
+        <p class="ports"><span class="port">in</span><span class="port">out</span></p>
+      </div>
+    </article>
+    <article class="card" data-cat="props">
+      <div class="thumb"><img src="preview/barrel.png" alt="barrel" loading="lazy"></div>
+      <div class="body">
+        <h3>barrel</h3>
+        <p class="specs">0.62 &times; 0.62 &times; 1.12 m &middot; 1650 tris</p>
+        <p class="ports"><span class="port">in</span></p>
+      </div>
+    </article>
+    <article class="card" data-cat="robotics">
+      <div class="thumb"><img src="preview/robot_arm.png" alt="robot_arm" loading="lazy"></div>
+      <div class="body">
+        <h3>robot_arm</h3>
+        <p class="specs">1.50 &times; 1.50 &times; 2.81 m &middot; 4032 tris</p>
+        <p class="ports"><span class="port">grasp</span><span class="port">power</span><span class="tag rig">rigged</span></p>
+      </div>
+    </article>
+    <article class="card" data-cat="robotics">
+      <div class="thumb"><img src="preview/agv.png" alt="agv" loading="lazy"></div>
+      <div class="body">
+        <h3>agv</h3>
+        <p class="specs">1.47 &times; 1.00 &times; 0.75 m &middot; 1182 tris</p>
+        <p class="ports"><span class="port">deck</span><span class="port">power</span></p>
+      </div>
+    </article>
+    <article class="card" data-cat="safety">
+      <div class="thumb"><img src="preview/safety_fence.png" alt="safety_fence" loading="lazy"></div>
+      <div class="body">
+        <h3>safety_fence</h3>
+        <p class="specs">2.06 &times; 0.19 &times; 1.75 m &middot; 1468 tris</p>
+        <p class="ports"><span class="port">hinge</span></p>
+      </div>
+    </article>
+    <article class="card" data-cat="storage">
+      <div class="thumb"><img src="preview/storage_rack.png" alt="storage_rack" loading="lazy"></div>
+      <div class="body">
+        <h3>storage_rack</h3>
+        <p class="specs">2.00 &times; 1.00 &times; 3.09 m &middot; 2288 tris</p>
+        <p class="ports"><span class="port">slot_a</span><span class="port">slot_b</span></p>
+      </div>
+    </article>
+    <article class="card" data-cat="power">
+      <div class="thumb"><img src="preview/power_transformer.png" alt="power_transformer" loading="lazy"></div>
+      <div class="body">
+        <h3>power_transformer</h3>
+        <p class="specs">1.50 &times; 1.50 &times; 1.81 m &middot; 2594 tris</p>
+        <p class="ports"><span class="port">hv_in</span><span class="port">lv_out</span></p>
+      </div>
+    </article>
+    <article class="card" data-cat="fluids">
+      <div class="thumb"><img src="preview/cooling_chiller.png" alt="cooling_chiller" loading="lazy"></div>
+      <div class="body">
+        <h3>cooling_chiller</h3>
+        <p class="specs">2.00 &times; 1.50 &times; 1.31 m &middot; 2322 tris</p>
+        <p class="ports"><span class="port">water_in</span><span class="port">water_out</span><span class="port">power</span></p>
+      </div>
+    </article>
+    <article class="card" data-cat="props">
+      <div class="thumb"><img src="preview/pallet.png" alt="pallet" loading="lazy"></div>
+      <div class="body">
+        <h3>pallet</h3>
+        <p class="specs">1.00 &times; 1.00 &times; 0.28 m &middot; 816 tris</p>
+        <p class="ports"></p>
+      </div>
+    </article>
+    <article class="card" data-cat="props">
+      <div class="thumb"><img src="preview/crate.png" alt="crate" loading="lazy"></div>
+      <div class="body">
+        <h3>crate</h3>
+        <p class="specs">1.00 &times; 1.00 &times; 0.81 m &middot; 1322 tris</p>
+        <p class="ports"></p>
+      </div>
+    </article>
+    <article class="card" data-cat="props">
+      <div class="thumb"><img src="preview/cardboard_boxes.png" alt="cardboard_boxes" loading="lazy"></div>
+      <div class="body">
+        <h3>cardboard_boxes</h3>
+        <p class="specs">1.00 &times; 1.00 &times; 0.62 m &middot; 674 tris</p>
+        <p class="ports"></p>
+      </div>
+    </article>
+</main>
+</body></html>

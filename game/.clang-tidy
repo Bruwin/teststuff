@@ -1,0 +1,28 @@
+# Curated checks. Everything not listed is off so the CI signal stays meaningful
+# (AGT-08: never disable a check locally; change this file with review).
+Checks: >
+  -*,
+  bugprone-*,
+  performance-*,
+  modernize-*,
+  readability-braces-around-statements,
+  readability-const-return-type,
+  readability-container-size-empty,
+  readability-duplicate-include,
+  readability-misleading-indentation,
+  readability-non-const-parameter,
+  readability-redundant-*,
+  readability-use-nullptr,
+  cppcoreguidelines-pro-type-static-cast-downcast,
+  cppcoreguidelines-slicing,
+  -modernize-use-trailing-return-type,
+  -modernize-avoid-c-arrays,
+  -bugprone-easily-swappable-parameters
+WarningsAsErrors: >
+  bugprone-*,
+  performance-*,
+  readability-braces-around-statements,
+  readability-misleading-indentation,
+  cppcoreguidelines-slicing
+HeaderFilterRegex: '^src/'
+FormatStyle: file
