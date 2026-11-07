@@ -7,8 +7,9 @@
 
 ## Phase
 
-**M1 complete, layout restructured. Next is M2 (RHI skeleton: device, swap chain,
-clear).**
+**M2 in progress: the RHI contract, the swap chain and the headless backend are in,
+wired into both app loops and tested. Next is the GL backend (M2b), then the first
+triangle (M3).**
 
 The repository root is the game: `src/`, `tests/`, `tools/` (the gate), `.github/`.
 The voxel art set is a sub-project under `assets/` with its own tooling, README and
@@ -19,10 +20,10 @@ CI job. `plan/` sits alongside as documentation.
 ```
 cd <repo root>
 bash tools/verify.sh
-  conventions          26 files, 0 findings
-  layering             17 files, 0 findings
+  conventions          34 files, 0 findings
+  layering             24 files, 0 findings
   gate self-test        4/4 ok (planted violations rejected)
-  build (g++ fallback) 31 test cases, 0 failures
+  build (g++ fallback) 39 test cases, 0 failures
   verify: OK
 
 python3 assets/tools/validate.py   -> 36 assets, 109636 triangles, 0 problems
@@ -39,12 +40,15 @@ none
 
 ## Next
 
-1. **M2**: `src/rhi/` device + swap chain + clear; `platform::Window::present()`
-   becomes a real swap. Acceptance: cleared window at 60 fps, `verify.sh` green
-   with a headless RHI stub.
-2. Wire `src/game/merge_station.h` into the sim's machine step (it is written and
+1. **M2b**: `src/rhi/gl/` backend. Name the file `*_sdl.cpp` so the fallback build
+   skips it the same way it skips `window_sdl.cpp`, and add it to CMake under
+   `if(SDL3_FOUND)`. Needs SDL3 and GL headers; this environment has neither, so it
+   is CI-first work.
+2. **M3**: first triangle and debug lines through `rhi::Device`, replacing the
+   clear-only body of the window loop.
+3. Wire `src/game/merge_station.h` into the sim's machine step (it is written and
    harness-verified but nothing calls it yet).
-3. Replace `tests/harness.h` with doctest once vendoring lands (`MOD-05` record
+4. Replace `tests/harness.h` with doctest once vendoring lands (`MOD-05` record
    needed first); the macros already match doctest's shape.
 
 ## Blocked
@@ -60,7 +64,7 @@ none
 | `sim` | `src/sim/world.h` | `sim` | M0 stub (clock + hash) |
 | `platform` | `src/platform/platform.h` | `core` | M1 done (SDL3 + headless stub) |
 | `game` | `src/game/merge_station.h` | `game` | merge station controller (harness only, not wired) |
-| `rhi` | `src/rhi/device.h` | `gfx` | not started |
+| `rhi` | `src/rhi/rhi.h` | `gfx` | M2: contract + headless backend; GL pending (M2b) |
 | `render` | `src/render/render.h` | `gfx` | not started |
 | `physics` | `src/physics/world.h` | `phys` | not started |
 | `ui` | `src/ui/ui.h` | `ui` | not started |
@@ -79,6 +83,10 @@ none
 - Physics results never enter `sim_hash()` (`D-004`).
 - `platform/` has two backends: `window_sdl.cpp` when CMake finds SDL3,
   `window_stub.cpp` otherwise (`FCT_HAVE_SDL3`). Both must keep compiling.
+- Swap chain bookkeeping (size checks, clear/present counts, frame digest) lives in
+  `src/rhi/swap_chain_state.h` and every backend drives it, so loop behaviour is
+  testable with no GPU. `rhi::create_device` never returns null: a machine without
+  GL gets the headless backend and a log line saying so.
 - **The repository is the game.** `assets/` is a sub-project with its own gate
   (`python3 assets/tools/validate.py`) and its own CI job; the engine never links
   against asset tooling.
@@ -108,6 +116,7 @@ commit, not the working tree, so a download equals the release.
 | 001 | 2026-11-07 | M0 | repository seed, gates, tests; `verify: OK` |
 | 002 | 2026-11-07 | M1 | platform + fixed-step clock + log sinks; 31 tests green |
 | 003 | 2026-11-07 | restructure | game at the root, assets sub-project, CI live |
+| 004 | 2026-11-07 | M2 (headless) | RHI contract, swap chain, headless backend, 8 tests |
 
 ## Handoff -- (template, copy for each session)
 

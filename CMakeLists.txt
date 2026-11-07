@@ -66,9 +66,17 @@ else()
     target_compile_definitions(fct_platform PUBLIC FCT_HAVE_SDL3=0)
 endif()
 
+# RHI: the device and swap chain contract plus the headless backend. The GL
+# backend (rhi/gl) is added with SDL3, next to the window backend, so a build
+# without a GPU still links a working device.
+add_library(fct_rhi STATIC
+    src/rhi/device.cpp
+    src/rhi/null_device.cpp)
+target_link_libraries(fct_rhi PUBLIC fct_core)
+
 add_executable(fct_app
     src/app/main.cpp)
-target_link_libraries(fct_app PRIVATE fct_sim fct_platform)
+target_link_libraries(fct_app PRIVATE fct_sim fct_platform fct_rhi)
 
 # --- tests -------------------------------------------------------------------
 add_executable(fct_tests
@@ -78,9 +86,10 @@ add_executable(fct_tests
     tests/unit/test_sim.cpp
     tests/unit/test_fixed_step.cpp
     tests/unit/test_log.cpp
-    tests/unit/test_platform.cpp)
+    tests/unit/test_platform.cpp
+    tests/unit/test_rhi.cpp)
 target_include_directories(fct_tests PRIVATE tests)
-target_link_libraries(fct_tests PRIVATE fct_sim fct_platform)
+target_link_libraries(fct_tests PRIVATE fct_sim fct_platform fct_rhi)
 
 enable_testing()
 add_test(NAME unit COMMAND fct_tests)

@@ -39,6 +39,10 @@ cmake --preset dev-ninja && cmake --build --preset dev-ninja && ctest --preset d
 ./build/fct_app --window                          # real window, needs SDL3 at build time
 ```
 
+`--frames` submits every frame through `rhi::SwapChain` -- clear, present, digest --
+so the render loop is exercised on a machine with no GPU; it prints `presents=` and a
+`digest=` that must not change between runs.
+
 `--ticks` and `--frames` need no display and no SDL3, which is what keeps CI and
 containers green. `--window` falls back to the synthetic loop with a warning when
 the binary was built headless.
@@ -50,6 +54,7 @@ the binary was built headless.
 | `src/core/` | Q16.16 `Fix`, hashing, logging + sinks, fixed-step clock, version |
 | `src/sim/` | deterministic world: tick order v1, state hash, no floats allowed |
 | `src/platform/` | window, input, monotonic time; SDL3 backend or headless stub |
+| `src/rhi/` | device + swap chain contract and the headless backend (GL at M2b) |
 | `src/app/` | entry point and the frame loop |
 | `src/game/` | gameplay systems (`merge_station.h` at present) |
 | `tests/` | unit tests; `tests/manual/` holds harnesses run by hand |

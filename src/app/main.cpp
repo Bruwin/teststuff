@@ -9,11 +9,13 @@
 // verify.sh and CI depend on it.
 #include <cstdlib>
 #include <cstring>
+#include <memory>
 
 #include "core/fixed_step.h"
 #include "core/log.h"
 #include "core/version.h"
 #include "platform/platform.h"
+#include "rhi/rhi.h"
 #include "sim/world.h"
 
 namespace {
@@ -52,6 +54,16 @@ Options parse_options(int argc, char** argv) {
 
 std::uint32_t world_seed() { return 0xC0FFEEu; }
 
+// A frame's clear colour, derived from its index: cheap, deterministic, and it
+// makes a stalled present visible instead of a static picture.
+fct::rhi::ClearColor clear_for_frame(int frame) {
+    fct::rhi::ClearColor color;
+    color.r = 0.04f;
+    color.g = 0.05f;
+    color.b = 0.07f + static_cast<float>(frame % 64) / 512.0f;
+    return color;
+}
+
 int run_ticks(int ticks) {
     fct::sim::World world(world_seed());
     for (int i = 0; i < ticks; ++i) {
@@ -62,10 +74,22 @@ int run_ticks(int ticks) {
     return 0;
 }
 
-// Synthetic frame loop: no clock reads, no sleeps, fully reproducible.
+// Synthetic frame loop: no clock reads, no sleeps, fully reproducible. Each frame
+// is submitted through the RHI exactly as the window loop does, so this mode
+// exercises the same clear and present path on a machine with no GPU.
 int run_frames(const Options& options) {
     fct::sim::World world(world_seed());
     fct::FixedStepClock clock(fct::kSimStepNs, kMaxTicksPerFrame);
+
+    fct::rhi::DeviceDesc device_desc;
+    device_desc.prefer = fct::rhi::Backend::kNull;  // no surface to draw on here
+    const std::unique_ptr<fct::rhi::Device> device = fct::rhi::create_device(device_desc);
+    const std::unique_ptr<fct::rhi::SwapChain> swap_chain =
+        device->try_create_swap_chain(fct::rhi::SwapChainDesc{});
+    if (swap_chain == nullptr) {
+        FCT_LOG_ERROR("could not create a swap chain");
+        return 1;
+    }
 
     std::int64_t now_ns = 0;
     for (int frame = 0; frame < options.frames; ++frame) {
@@ -74,13 +98,18 @@ int run_frames(const Options& options) {
         for (int step = 0; step < steps; ++step) {
             world.tick();
         }
+        swap_chain->clear(clear_for_frame(frame));
+        swap_chain->try_present();
     }
 
-    FCT_LOG_INFO("frames=%d ticks=%llu dropped=%llu alpha=%.3f hash=%016llx", options.frames,
-                 static_cast<unsigned long long>(clock.tick_count()),
+    FCT_LOG_INFO(
+        "frames=%d ticks=%llu dropped=%llu alpha=%.3f hash=%016llx presents=%llu digest=%016llx",
+                 options.frames, static_cast<unsigned long long>(clock.tick_count()),
                  static_cast<unsigned long long>(clock.dropped_ticks()),
                  static_cast<double>(clock.alpha()),
-                 static_cast<unsigned long long>(world.hash()));
+                 static_cast<unsigned long long>(world.hash()),
+                 static_cast<unsigned long long>(swap_chain->frames_presented()),
+                 static_cast<unsigned long long>(swap_chain->frame_digest()));
     return 0;
 }
 
@@ -103,6 +132,14 @@ int run_window() {
     fct::FixedStepClock clock(fct::kSimStepNs, kMaxTicksPerFrame);
     fct::platform::InputSnapshot input{};
 
+    const std::unique_ptr<fct::rhi::Device> device = fct::rhi::create_device({});
+    fct::rhi::SwapChainDesc chain_desc;
+    chain_desc.width_px = window.width();
+    chain_desc.height_px = window.height();
+    const std::unique_ptr<fct::rhi::SwapChain> swap_chain =
+        device->try_create_swap_chain(chain_desc);
+
+    int frame = 0;
     while (window.is_open() && !input.quit) {
         window.poll(input);
         if (fct::platform::is_pressed(input, fct::platform::Key::kEscape)) {
@@ -114,13 +151,26 @@ int run_window() {
             world.tick();
         }
 
+        if (swap_chain != nullptr) {
+            if (swap_chain->try_resize(window.width(), window.height())) {
+                FCT_LOG_DEBUG("swap chain resized to %dx%d", window.width(), window.height());
+            }
+            swap_chain->clear(clear_for_frame(frame));
+            swap_chain->try_present();
+        }
         window.present();
-        // Nothing is drawn yet (M3), so yield instead of spinning at 100 % CPU.
+        ++frame;
+        // Only a clear so far (geometry lands at M3), so yield rather than spin
+        // at 100 % CPU.
         fct::platform::sleep_for_ns(1'000'000);
     }
 
-    FCT_LOG_INFO("window closed after %llu ticks",
-                 static_cast<unsigned long long>(clock.tick_count()));
+    device->wait_idle();
+    FCT_LOG_INFO("window closed after %llu ticks, %llu frames presented",
+                 static_cast<unsigned long long>(clock.tick_count()),
+                 static_cast<unsigned long long>(swap_chain == nullptr
+                                                     ? 0
+                                                     : swap_chain->frames_presented()));
     return 0;
 }
 
