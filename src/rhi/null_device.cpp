@@ -27,8 +27,12 @@ public:
 
     bool try_present() override { return state_.try_present(); }
 
+    bool try_submit(const CommandBuffer& commands) override { return state_.try_submit(commands); }
+
     std::uint64_t frames_presented() const override { return state_.frames_presented(); }
     std::uint64_t clears_issued() const override { return state_.clears_issued(); }
+    std::uint64_t submitted_buffers() const override { return state_.submitted_buffers(); }
+    std::uint64_t vertices_submitted() const override { return state_.vertices_submitted(); }
     std::uint64_t frame_digest() const override { return state_.frame_digest(); }
 
 private:

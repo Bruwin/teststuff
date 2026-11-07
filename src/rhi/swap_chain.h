@@ -5,6 +5,8 @@
 
 #include <cstdint>
 
+#include "rhi/command_buffer.h"
+
 namespace fct::rhi {
 
 // Presentable formats the engine ships with. BGRA8 is the window default: it is
@@ -74,8 +76,15 @@ public:
     // caller recreates the chain; this one stays valid but presents nothing.
     virtual bool try_present() = 0;
 
+    // Hands the frame's commands to the backend. The headless chain accounts for
+    // them (counts, digest); the GL chain will upload and draw. False when the
+    // surface is lost or the buffer is rejected.
+    virtual bool try_submit(const CommandBuffer& commands) = 0;
+
     virtual std::uint64_t frames_presented() const = 0;
     virtual std::uint64_t clears_issued() const = 0;
+    virtual std::uint64_t submitted_buffers() const = 0;
+    virtual std::uint64_t vertices_submitted() const = 0;
 
     // Digest of every clear and present issued so far. Two runs of the same
     // sequence produce the same value, which is what the loop tests assert on --

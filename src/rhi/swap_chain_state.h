@@ -27,6 +27,8 @@ public:
     std::uint64_t frames_presented() const { return frames_presented_; }
     std::uint64_t clears_issued() const { return clears_issued_; }
     std::uint64_t frame_digest() const { return digest_; }
+    std::uint64_t submitted_buffers() const { return submitted_buffers_; }
+    std::uint64_t vertices_submitted() const { return vertices_submitted_; }
     bool is_lost() const { return is_lost_; }
 
     // Same validation as the desc, so a window manager cannot resize us to zero
@@ -59,6 +61,19 @@ public:
         return true;
     }
 
+    // Commands are accounted for even though nothing is drawn: the count and the
+    // digest are what make "the frame reached the device" checkable on a machine
+    // with no GPU.
+    bool try_submit(const CommandBuffer& commands) {
+        if (is_lost_) {
+            return false;
+        }
+        ++submitted_buffers_;
+        vertices_submitted_ += static_cast<std::uint64_t>(commands.vertices().size());
+        digest_ = fct::hash_combine(digest_, commands.digest());
+        return true;
+    }
+
     void mark_lost() { is_lost_ = true; }
 
 private:
@@ -87,6 +102,8 @@ private:
     PresentMode present_mode_;
     std::uint64_t frames_presented_ = 0;
     std::uint64_t clears_issued_ = 0;
+    std::uint64_t submitted_buffers_ = 0;
+    std::uint64_t vertices_submitted_ = 0;
     std::uint64_t digest_;
     bool is_lost_ = false;
 };

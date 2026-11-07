@@ -15,6 +15,7 @@
 #include "core/log.h"
 #include "core/version.h"
 #include "platform/platform.h"
+#include "render/render.h"
 #include "rhi/rhi.h"
 #include "sim/world.h"
 
@@ -74,6 +75,66 @@ int run_ticks(int ticks) {
     return 0;
 }
 
+// The M3 scene: one triangle inside a debug box, in clip space. It is submitted
+// through the RHI every frame and drawn by the reference rasteriser, so this is
+// the geometry the GL backend will replay once it exists.
+fct::rhi::CommandBuffer build_scene_commands() {
+    const std::uint32_t fill = fct::rhi::pack_rgba(255, 176, 59, 255);
+    const std::uint32_t outline = fct::rhi::pack_rgba(235, 238, 245, 255);
+
+    const fct::rhi::Vertex a{-0.60f, -0.55f, 0.0f, 1.0f, fill};
+    const fct::rhi::Vertex b{0.60f, -0.55f, 0.0f, 1.0f, fill};
+    const fct::rhi::Vertex c{0.00f, 0.62f, 0.0f, 1.0f, fill};
+    const fct::rhi::Vertex box_tl{-0.75f, 0.75f, 0.0f, 1.0f, outline};
+    const fct::rhi::Vertex box_tr{0.75f, 0.75f, 0.0f, 1.0f, outline};
+    const fct::rhi::Vertex box_br{0.75f, -0.75f, 0.0f, 1.0f, outline};
+    const fct::rhi::Vertex box_bl{-0.75f, -0.75f, 0.0f, 1.0f, outline};
+
+    fct::rhi::CommandBuffer commands;
+    FCT_ASSERT(commands.try_push_triangle(a, b, c));
+    FCT_ASSERT(commands.try_push_line(box_tl, box_tr));
+    FCT_ASSERT(commands.try_push_line(box_tr, box_br));
+    FCT_ASSERT(commands.try_push_line(box_br, box_bl));
+    FCT_ASSERT(commands.try_push_line(box_bl, box_tl));
+    return commands;
+}
+
+// One frame through the RHI: match the window size, clear, submit, present. Kept
+// out of the loop so the loop reads as a loop.
+void draw_frame(fct::rhi::SwapChain* chain, const fct::rhi::CommandBuffer& commands, int frame,
+                int width_px, int height_px) {
+    if (chain == nullptr) {
+        return;
+    }
+    if (chain->try_resize(width_px, height_px)) {
+        FCT_LOG_DEBUG("swap chain resized to %dx%d", width_px, height_px);
+    }
+    chain->clear(clear_for_frame(frame));
+    chain->try_submit(commands);
+    chain->try_present();
+}
+
+struct PreviewShot {
+    int covered_px = 0;
+    std::uint64_t digest = 0;
+};
+
+// What the frame would look like, drawn in software: the only way to say more
+// than "the calls were made" on a machine with no GPU.
+PreviewShot rasterize_preview(const fct::rhi::CommandBuffer& commands, int last_frame) {
+    PreviewShot shot;
+    fct::render::Framebuffer target;
+    if (!target.try_resize(320, 180)) {
+        return shot;
+    }
+    target.clear(clear_for_frame(last_frame));
+    const fct::render::Rasterizer rasterizer;
+    rasterizer.draw(commands, target);
+    shot.covered_px = target.covered_pixels();
+    shot.digest = target.digest();
+    return shot;
+}
+
 // Synthetic frame loop: no clock reads, no sleeps, fully reproducible. Each frame
 // is submitted through the RHI exactly as the window loop does, so this mode
 // exercises the same clear and present path on a machine with no GPU.
@@ -89,7 +150,7 @@ int run_frames(const Options& options) {
     if (swap_chain == nullptr) {
         FCT_LOG_ERROR("could not create a swap chain");
         return 1;
-    }
+    }    const fct::rhi::CommandBuffer commands = build_scene_commands();
 
     std::int64_t now_ns = 0;
     for (int frame = 0; frame < options.frames; ++frame) {
@@ -99,17 +160,23 @@ int run_frames(const Options& options) {
             world.tick();
         }
         swap_chain->clear(clear_for_frame(frame));
+        if (!swap_chain->try_submit(commands)) {
+            FCT_LOG_WARN("frame %d was rejected by the swap chain", frame);
+        }
         swap_chain->try_present();
     }
 
+    const PreviewShot shot = rasterize_preview(commands, options.frames - 1);
     FCT_LOG_INFO(
-        "frames=%d ticks=%llu dropped=%llu alpha=%.3f hash=%016llx presents=%llu digest=%016llx",
-                 options.frames, static_cast<unsigned long long>(clock.tick_count()),
-                 static_cast<unsigned long long>(clock.dropped_ticks()),
-                 static_cast<double>(clock.alpha()),
-                 static_cast<unsigned long long>(world.hash()),
-                 static_cast<unsigned long long>(swap_chain->frames_presented()),
-                 static_cast<unsigned long long>(swap_chain->frame_digest()));
+        "frames=%d ticks=%llu dropped=%llu alpha=%.3f hash=%016llx presents=%llu digest=%016llx "
+        "covered=%d frame=%016llx",
+        options.frames, static_cast<unsigned long long>(clock.tick_count()),
+        static_cast<unsigned long long>(clock.dropped_ticks()),
+        static_cast<double>(clock.alpha()),
+        static_cast<unsigned long long>(world.hash()),
+        static_cast<unsigned long long>(swap_chain->frames_presented()),
+        static_cast<unsigned long long>(swap_chain->frame_digest()), shot.covered_px,
+        static_cast<unsigned long long>(shot.digest));
     return 0;
 }
 
@@ -138,6 +205,7 @@ int run_window() {
     chain_desc.height_px = window.height();
     const std::unique_ptr<fct::rhi::SwapChain> swap_chain =
         device->try_create_swap_chain(chain_desc);
+    const fct::rhi::CommandBuffer commands = build_scene_commands();
 
     int frame = 0;
     while (window.is_open() && !input.quit) {
@@ -151,17 +219,10 @@ int run_window() {
             world.tick();
         }
 
-        if (swap_chain != nullptr) {
-            if (swap_chain->try_resize(window.width(), window.height())) {
-                FCT_LOG_DEBUG("swap chain resized to %dx%d", window.width(), window.height());
-            }
-            swap_chain->clear(clear_for_frame(frame));
-            swap_chain->try_present();
-        }
+        draw_frame(swap_chain.get(), commands, frame, window.width(), window.height());
         window.present();
         ++frame;
-        // Only a clear so far (geometry lands at M3), so yield rather than spin
-        // at 100 % CPU.
+        // One clear and one triangle per frame: yield rather than spin at 100 %.
         fct::platform::sleep_for_ns(1'000'000);
     }
 

@@ -7,9 +7,9 @@
 
 ## Phase
 
-**M2 in progress: the RHI contract, the swap chain and the headless backend are in,
-wired into both app loops and tested. Next is the GL backend (M2b), then the first
-triangle (M3).**
+**M3 in progress: the first triangle and debug lines are drawn and pixel-tested
+through a command buffer that any backend can replay. Next is the GL backend
+(M3b), which executes that same buffer on hardware.**
 
 The repository root is the game: `src/`, `tests/`, `tools/` (the gate), `.github/`.
 The voxel art set is a sub-project under `assets/` with its own tooling, README and
@@ -20,10 +20,10 @@ CI job. `plan/` sits alongside as documentation.
 ```
 cd <repo root>
 bash tools/verify.sh
-  conventions          34 files, 0 findings
-  layering             24 files, 0 findings
+  conventions          41 files, 0 findings
+  layering             30 files, 0 findings
   gate self-test        4/4 ok (planted violations rejected)
-  build (g++ fallback) 39 test cases, 0 failures
+  build (g++ fallback) 48 test cases, 0 failures
   verify: OK
 
 python3 assets/tools/validate.py   -> 36 assets, 109636 triangles, 0 problems
@@ -40,12 +40,12 @@ none
 
 ## Next
 
-1. **M2b**: `src/rhi/gl/` backend. Name the file `*_sdl.cpp` so the fallback build
+1. **M3b**: `src/rhi/gl/` backend. Name the file `*_sdl.cpp` so the fallback build
    skips it the same way it skips `window_sdl.cpp`, and add it to CMake under
-   `if(SDL3_FOUND)`. Needs SDL3 and GL headers; this environment has neither, so it
-   is CI-first work.
-2. **M3**: first triangle and debug lines through `rhi::Device`, replacing the
-   clear-only body of the window loop.
+   `if(SDL3_FOUND)`. It replays `rhi::CommandBuffer`; needs SDL3 and GL headers, so
+   it is CI-first work. Screenshot capture follows from a surface readback.
+2. **M4**: scene graph, chunk batcher and a real camera, so the M3 triangle
+   becomes world geometry instead of a clip-space constant.
 3. Wire `src/game/merge_station.h` into the sim's machine step (it is written and
    harness-verified but nothing calls it yet).
 4. Replace `tests/harness.h` with doctest once vendoring lands (`MOD-05` record
@@ -64,7 +64,8 @@ none
 | `sim` | `src/sim/world.h` | `sim` | M0 stub (clock + hash) |
 | `platform` | `src/platform/platform.h` | `core` | M1 done (SDL3 + headless stub) |
 | `game` | `src/game/merge_station.h` | `game` | merge station controller (harness only, not wired) |
-| `rhi` | `src/rhi/rhi.h` | `gfx` | M2: contract + headless backend; GL pending (M2b) |
+| `rhi` | `src/rhi/rhi.h` | `gfx` | device, swap chain, command buffer; GL pending (M3b) |
+| `render` | `src/render/render.h` | `gfx` | M3: reference rasteriser + framebuffer; scene graph at M4 |
 | `render` | `src/render/render.h` | `gfx` | not started |
 | `physics` | `src/physics/world.h` | `phys` | not started |
 | `ui` | `src/ui/ui.h` | `ui` | not started |
@@ -87,6 +88,10 @@ none
   `src/rhi/swap_chain_state.h` and every backend drives it, so loop behaviour is
   testable with no GPU. `rhi::create_device` never returns null: a machine without
   GL gets the headless backend and a log line saying so.
+- Drawing is a `rhi::CommandBuffer` replayed by a backend. The software
+  `render::Rasterizer` is the reference executor and the pixel tests' oracle; it is
+  not a shipping renderer. No depth buffer and no frustum clipping until the
+  milestone that can test them.
 - **The repository is the game.** `assets/` is a sub-project with its own gate
   (`python3 assets/tools/validate.py`) and its own CI job; the engine never links
   against asset tooling.
@@ -117,6 +122,7 @@ commit, not the working tree, so a download equals the release.
 | 002 | 2026-11-07 | M1 | platform + fixed-step clock + log sinks; 31 tests green |
 | 003 | 2026-11-07 | restructure | game at the root, assets sub-project, CI live |
 | 004 | 2026-11-07 | M2 (headless) | RHI contract, swap chain, headless backend, 8 tests |
+| 005 | 2026-11-07 | M3 (software) | command buffer, rasteriser, triangle + debug lines, 9 tests |
 
 ## Handoff -- (template, copy for each session)
 

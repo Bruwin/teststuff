@@ -74,9 +74,16 @@ add_library(fct_rhi STATIC
     src/rhi/null_device.cpp)
 target_link_libraries(fct_rhi PUBLIC fct_core)
 
+# Render module: M3 ships the reference rasteriser and its target. Geometry,
+# culling and the chunk batcher follow at M4.
+add_library(fct_render STATIC
+    src/render/framebuffer.cpp
+    src/render/rasterizer.cpp)
+target_link_libraries(fct_render PUBLIC fct_rhi)
+
 add_executable(fct_app
     src/app/main.cpp)
-target_link_libraries(fct_app PRIVATE fct_sim fct_platform fct_rhi)
+target_link_libraries(fct_app PRIVATE fct_sim fct_platform fct_rhi fct_render)
 
 # --- tests -------------------------------------------------------------------
 add_executable(fct_tests
@@ -87,9 +94,10 @@ add_executable(fct_tests
     tests/unit/test_fixed_step.cpp
     tests/unit/test_log.cpp
     tests/unit/test_platform.cpp
-    tests/unit/test_rhi.cpp)
+    tests/unit/test_rhi.cpp
+    tests/unit/test_render.cpp)
 target_include_directories(fct_tests PRIVATE tests)
-target_link_libraries(fct_tests PRIVATE fct_sim fct_platform fct_rhi)
+target_link_libraries(fct_tests PRIVATE fct_sim fct_platform fct_rhi fct_render)
 
 enable_testing()
 add_test(NAME unit COMMAND fct_tests)
