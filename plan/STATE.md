@@ -87,6 +87,19 @@ none
 - CI workflows only run from the root `.github/workflows/` -- which is why the
   restructure mattered.
 
+## Releases
+
+| Tag | Milestone | Contents |
+|---|---|---|
+| `v0.1.0-m1` | M1 | engine seed: fixed-step clock, platform layer, log sinks, 31 tests, gates, asset set |
+| `v0.1.1-m1` | M1 layout | game-first tree, `assets/` as a sub-project, CI live at the root; no gameplay or API change |
+
+Both are annotated and pushed with the branch. `kVersion` in `src/core/version.h`
+moves with the tag, so a log line, a save header and a release name the same state.
+A pushed tag is never moved; if a tagged state turns out to be broken, publish a
+new tag rather than retagging it. The archives in `dist/` are built from the tagged
+commit, not the working tree, so a download equals the release.
+
 ## Session log index
 
 | # | Date | Milestone | Result |
