@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 """Build every voxel asset: .glb + .obj/.mtl + preview PNG + manifest.
 
-    python3 tools/build.py              # everything
-    python3 tools/build.py motor pump   # just these ids
-    python3 tools/build.py --no-render  # geometry only (fast)
+    python3 assets/tools/build.py              # everything
+    python3 assets/tools/build.py motor pump   # just these ids
+    python3 assets/tools/build.py --no-render  # geometry only (fast)
+
+Run from the repository root; paths are resolved from this file, not the cwd.
 """
 
 import json
@@ -14,7 +16,7 @@ import time
 import numpy as np
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-ROOT = os.path.dirname(HERE)
+ASSETS = os.path.dirname(HERE)  # assets/ this generator lives inside
 sys.path.insert(0, HERE)
 
 import models.conveyors as conveyors  # noqa: E402
@@ -30,7 +32,6 @@ from voxelgen.obj import build_obj  # noqa: E402
 from voxelgen.render import contact_sheet, render_model, write_png  # noqa: E402
 
 MODULES = [conveyors, machines, pipes, tanks, robotics, structures, props]
-ASSETS = os.path.join(ROOT, "assets")
 SUBDIRS = ("glb", "obj", "preview", "rigs")
 IMAGES = {}
 

@@ -32,6 +32,15 @@ namespace fct::sim {
 Fix advance(Fix clock) { return clock + Fix::from_ratio(1, 30); }
 }  // namespace fct::sim
 EOF
+# tests/manual/ is exempt from LAY-06 only: a long harness must stay accepted,
+# while the planted long function in src/sim/ above must still be rejected.
+mkdir -p "$work/good/tests/manual"
+{
+    printf '%s\n' 'int main() {'
+    for i in $(seq 1 70); do printf '    int v%d = %d;\n' "$i" "$i"; done
+    printf '%s\n' '    return 0;' '}'
+} > "$work/good/tests/manual/long_harness.cpp"
+
 cat > "$work/good/tests/ok.cpp" <<'EOF'
 #include "core/fixed.h"
 

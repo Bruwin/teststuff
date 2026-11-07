@@ -1,4 +1,4 @@
-// merge_station.h — sequencing controller for a gate -> diverter -> merge line.
+// merge_station.h -- sequencing controller for a gate -> diverter -> merge line.
 //
 // Header-only, C++17, no dependencies, no allocation, no engine types. The
 // station drives the three linear joints the asset set already exports:
@@ -49,7 +49,7 @@
 namespace factory {
 
 struct MergeStationConfig {
-    // Joint ranges in metres — copies of assets/rigs/*.json limits_m.
+    // Joint ranges in metres -- copies of assets/rigs/*.json limits_m.
     float gate_open_m = -0.29f;
     float gate_closed_m = 0.00f;
     float pusher_stroke_m = 0.30f;
@@ -127,33 +127,9 @@ public:
     void step(float dt, const Inputs& in) {
         if (!(dt > 0.0f)) return;
 
-        // --- edge detection and the two clearance timers -----------------
-        if (!in.gate_exit && prev_exit_) blind_timer_ = cfg_.blind_window_s;
-        if (!in.diverter_eye && prev_eye_) diverter_timer_ = cfg_.diverter_to_entry_s;
-        if (!in.merge_entry && prev_entry_) entry_timer_ = cfg_.entry_to_strip_s;
-        if (!in.throat && prev_throat_) strip_timer_ = cfg_.strip_clear_s;
-        if (in.diverter_eye && !prev_eye_) reject_latch_ = in.reject_item;
-        prev_exit_ = in.gate_exit;
-        prev_eye_ = in.diverter_eye;
-        prev_entry_ = in.merge_entry;
-        prev_throat_ = in.throat;
-
-        blind_timer_ = std::max(0.0f, blind_timer_ - dt);
-        diverter_timer_ = std::max(0.0f, diverter_timer_ - dt);
-        entry_timer_ = std::max(0.0f, entry_timer_ - dt);
-        strip_timer_ = std::max(0.0f, strip_timer_ - dt);
-
-        const bool lane_clear = !in.gate_exit && !in.diverter_eye && !in.merge_entry &&
-                                !in.throat && blind_timer_ <= 0.0f &&
-                                diverter_timer_ <= 0.0f && entry_timer_ <= 0.0f &&
-                                strip_timer_ <= 0.0f;
-
-        // A flagged item at the diverter plate is a routing decision, not a
-        // sequencing one: divert it whatever the rest of the station is doing.
-        if (state_ != State::reject && state_ != State::fault && in.diverter_eye &&
-            reject_latch_) {
-            enter(State::reject);
-        }
+        update_edges(dt, in);
+        const bool lane_clear = lane_is_clear(in);
+        maybe_reject(in);
 
         // --- transitions --------------------------------------------------
         switch (state_) {
@@ -198,7 +174,100 @@ public:
             break;
         }
 
-        // --- actuator targets ---------------------------------------------
+        drive_actuators(dt);
+        state_t_ += dt;
+    }
+
+    Pose pose() const { return Pose{gate_, pusher_, transfer_}; }
+    State state() const { return state_; }
+    bool busy() const { return state_ != State::idle; }
+    bool faulted() const { return state_ == State::fault; }
+    const MergeStationConfig& config() const { return cfg_; }
+
+private:
+    // Falling edges start the clearance timers that keep the station from
+    // believing a lane is empty the instant a beam clears.
+    void update_edges(float dt, const Inputs& in) {
+        if (!in.gate_exit && prev_exit_) blind_timer_ = cfg_.blind_window_s;
+        if (!in.diverter_eye && prev_eye_) diverter_timer_ = cfg_.diverter_to_entry_s;
+        if (!in.merge_entry && prev_entry_) entry_timer_ = cfg_.entry_to_strip_s;
+        if (!in.throat && prev_throat_) strip_timer_ = cfg_.strip_clear_s;
+        if (in.diverter_eye && !prev_eye_) reject_latch_ = in.reject_item;
+        prev_exit_ = in.gate_exit;
+        prev_eye_ = in.diverter_eye;
+        prev_entry_ = in.merge_entry;
+        prev_throat_ = in.throat;
+
+        blind_timer_ = std::max(0.0f, blind_timer_ - dt);
+        diverter_timer_ = std::max(0.0f, diverter_timer_ - dt);
+        entry_timer_ = std::max(0.0f, entry_timer_ - dt);
+        strip_timer_ = std::max(0.0f, strip_timer_ - dt);
+    }
+
+    // Every beam clear and every clearance timer expired.
+    bool lane_is_clear(const Inputs& in) const {
+        return !in.gate_exit && !in.diverter_eye && !in.merge_entry && !in.throat &&
+               blind_timer_ <= 0.0f && diverter_timer_ <= 0.0f &&
+               entry_timer_ <= 0.0f && strip_timer_ <= 0.0f;
+    }
+
+    // A flagged item at the diverter plate is a routing decision, not a
+    // sequencing one: divert it whatever the rest of the station is doing.
+    void maybe_reject(const Inputs& in) {
+        if (state_ != State::reject && state_ != State::fault && in.diverter_eye &&
+            reject_latch_) {
+            enter(State::reject);
+        }
+    }
+
+    void update_state(float dt, const Inputs& in, bool lane_clear) {
+        switch (state_) {
+        case State::idle:
+            if (in.side_waiting) {
+                if (lane_clear && in.downstream_ready) {
+                    enter(State::merge);
+                } else {
+                    enter(State::hold);
+                }
+            } else if (in.gate_entry && !in.downstream_ready) {
+                enter(State::hold);
+            }
+            break;
+
+        case State::hold:
+            if (lane_clear && in.downstream_ready)
+                enter(in.side_waiting ? State::merge : State::idle);
+            break;
+
+        case State::reject:
+            if (state_t_ >= cfg_.diverter_lead_s + cfg_.reject_dwell_s && pusher_ <= 1e-4f) {
+                reject_latch_ = false;
+                enter(State::idle);
+            }
+            break;
+
+        case State::merge:
+            if (!in.side_waiting && !in.throat) {
+                clear_t_ += dt;
+                if (clear_t_ >= cfg_.side_clear_dwell_s) enter(State::idle);
+            } else {
+                clear_t_ = 0.0f;
+            }
+            if (state_t_ > cfg_.watchdog_s) enter(State::fault);
+            break;
+
+        case State::fault:
+            if (!in.side_waiting && !in.throat) {
+                clear_t_ += dt;
+                if (clear_t_ >= 1.0f) enter(State::idle);
+            } else {
+                clear_t_ = 0.0f;
+            }
+            break;
+        }
+    }
+
+    void drive_actuators(float dt) {
         float gate_target = cfg_.gate_open_m;
         float pusher_target = 0.0f;
         float transfer_target = 0.0f;
@@ -228,16 +297,8 @@ public:
         gate_ = approach(gate_, gate_target, cfg_.gate_speed_mps, dt);
         pusher_ = approach(pusher_, pusher_target, cfg_.pusher_speed_mps, dt);
         transfer_ = approach(transfer_, transfer_target, cfg_.transfer_speed_mps, dt);
-        state_t_ += dt;
     }
 
-    Pose pose() const { return Pose{gate_, pusher_, transfer_}; }
-    State state() const { return state_; }
-    bool busy() const { return state_ != State::idle; }
-    bool faulted() const { return state_ == State::fault; }
-    const MergeStationConfig& config() const { return cfg_; }
-
-private:
     static float approach(float v, float target, float rate, float dt) {
         const float step = rate * dt;
         if (v < target) return std::min(v + step, target);

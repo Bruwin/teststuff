@@ -4,7 +4,7 @@ name: ci
 # machine" and "it passes in CI" cannot drift apart.
 on:
   push:
-    branches: [main]
+    branches: [master, main]
   pull_request:
   workflow_dispatch:
 
@@ -49,7 +49,7 @@ jobs:
         run: |
           cmake --preset dev
           cmake --build --preset dev --target fct_core fct_sim fct_platform -j2
-          run-clang-tidy -p build/dev 'src/.*' || true
+          run-clang-tidy -p build/dev 'src/.*'
 
   windows-msvc:
     runs-on: windows-2022
@@ -64,3 +64,17 @@ jobs:
       - name: Verify
         shell: bash
         run: ./tools/verify.sh
+
+  # The asset set is a sub-project: it has its own gate, and a broken asset must
+  # not reach the engine even though the engine does not need it to build.
+  assets:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install numpy
+        run: pip install numpy
+      - name: Validate the committed asset set
+        run: python3 assets/tools/validate.py

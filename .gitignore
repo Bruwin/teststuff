@@ -5,9 +5,25 @@ dist/
 .cache/
 __pycache__/
 *.pyc
+compile_commands.json
+*.o
+*.obj
+*.a
+*.lib
+*.exe
+*.pdb
+*.dSYM/
+
+# Game runtime state
+saves/
+*.fctsave
+log/
+logs/
 
 # Editor / OS noise
 .DS_Store
+Thumbs.db
 *.swp
+.vs/
 .vscode/
 .idea/

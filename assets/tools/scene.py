@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Compose the asset set into one diorama to check scale, tiling and colours.
 
-    python3 tools/scene.py
+    python3 assets/tools/scene.py
 
 Writes assets/scene_showcase.png.  This is a presentation render only -- the
 engine places its own models, but it proves the modules line up on the 2 m grid.
@@ -120,7 +120,7 @@ def main():
     for m in meshes:
         scene.add_mesh(m)
     img = scene.finish()
-    out = os.path.join(ROOT, "assets", "scene_showcase.png")
+    out = os.path.join(os.path.dirname(HERE), "scene_showcase.png")
     write_png(out, img)
     print("scene -> %s  (%dx%d, %d meshes)" % (out, img.shape[1], img.shape[0], len(meshes)))
 

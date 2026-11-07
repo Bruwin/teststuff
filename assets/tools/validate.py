@@ -17,8 +17,7 @@ import sys
 import numpy as np
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-ROOT = os.path.dirname(HERE)
-ASSETS = os.path.join(ROOT, "assets")
+ASSETS = os.path.dirname(HERE)  # assets/ this validator lives inside
 COMPONENT = {5120: "b", 5121: "B", 5122: "h", 5123: "H", 5125: "I", 5126: "f"}
 NCOMP = {"SCALAR": 1, "VEC2": 2, "VEC3": 3, "VEC4": 4, "MAT4": 16}
 SIZEOF = {"b": 1, "B": 1, "h": 2, "H": 2, "I": 4, "f": 4}
@@ -168,7 +167,7 @@ def validate_obj(path, problems):
 def main():
     manifest_path = os.path.join(ASSETS, "manifest.json")
     if not os.path.exists(manifest_path):
-        print("manifest.json missing -- run tools/build.py first")
+        print("manifest.json missing -- run assets/tools/build.py first")
         return 1
     with open(manifest_path) as f:
         manifest = json.load(f)

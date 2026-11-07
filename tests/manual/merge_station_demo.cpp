@@ -1,4 +1,4 @@
-// merge_station_demo.cpp — 120 s line simulation that drives MergeStation.
+// merge_station_demo.cpp -- 120 s line simulation that drives MergeStation.
 //
 // A roller line meets a side lane at the merge. Items are 0.4 m long and travel
 // at 0.30 m/s; they accumulate behind the gate blade when it is closed. One
@@ -16,7 +16,10 @@
 //   * no item passes a closed blade,
 //   * joint values stay inside limits_m and never exceed the slew rates.
 //
-// Build and run:  g++ -std=c++17 -O2 -Wall -Wextra engine/merge_station_demo.cpp
+// Build and run, from the repository root:
+//
+//   g++ -std=c++17 -O2 -Wall -Wextra -Isrc tests/manual/merge_station_demo.cpp
+//       -o merge_demo && ./merge_demo
 //
 // Station-local x positions, metres, from the module voxel layouts:
 //   gate      0.0 .. 1.0     blade 0.4375 .. 0.5, eyes 0.19 / 0.78
@@ -24,7 +27,7 @@
 //   merge     3.0 .. 5.0     entry beam 3.94, throat beam 4.25,
 //                            chain strip 4.50 .. 4.91
 
-#include "merge_station.h"
+#include "game/merge_station.h"
 
 #include <algorithm>
 #include <cmath>
@@ -159,7 +162,9 @@ int main() {
             std::printf("  %6.2f %-6s blade %6.3f plate %5.3f chain %5.3f |", t,
                         factory::merge_state_name(station.state()), p.gate_m, p.pusher_m,
                         p.transfer_m);
-            for (const Item& it : line) std::printf(" %d@%.2f%s", it.id, it.x, it.flagged ? "*" : "");
+            for (const Item& it : line) {
+                std::printf(" %d@%.2f%s", it.id, it.x, it.flagged ? "*" : "");
+            }
             if (side_active) std::printf(" side@%.2f", side_x);
             std::printf("\n");
         }

@@ -54,7 +54,8 @@ else
     # Same flags as CMakeLists.txt. Source lists are globbed so a new module does
     # not silently drop out of the fallback build.
     mapfile -t lib_sources < <(find src -type f -name '*.cpp' ! -name '*_sdl.cpp' ! -path 'src/app/*' | sort)
-    mapfile -t test_sources < <(find tests -type f -name '*.cpp' | sort)
+    # tests/manual/ holds harnesses with their own main(); they are built by hand.
+    mapfile -t test_sources < <(find tests -type f -name '*.cpp' ! -path 'tests/manual/*' | sort)
     cxx_flags=(-std=c++20 -O2 -g -Isrc -Itests
         -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Wold-style-cast
         -Wcast-align -Woverloaded-virtual -Wdouble-promotion -Wformat=2

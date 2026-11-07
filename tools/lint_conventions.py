@@ -137,11 +137,23 @@ def check_file(path: Path, engine: bool) -> list[str]:
             if PRINTF_CALL.search(line):
                 findings.append(f"{path}:{number}: LOG-01 printf-family output (use core/log.h)")
 
-    # Function length, measured by brace depth rather than by indentation: a
-    # member function defined inside a class or namespace must be measured too,
-    # and a body must not be closed early by a brace in a nested block. Braces in
-    # strings or comments could still confuse this; a heuristic is acceptable here
-    # because LAY-06 is about gross size, not exact counting.
+    # Function length is scoped away from hand-run harnesses under tests/manual/:
+    # those are simulation drivers with one long straight-line body, not shipped
+    # code. The gate self-test proves the exemption does not leak into src/.
+    if "tests/manual" not in path.as_posix():
+        findings.extend(function_length_findings(path, clean))
+    return findings
+
+
+def function_length_findings(path: Path, clean: list[str]) -> list[str]:
+    """Functions longer than MAX_FUNCTION_LINES, measured by brace depth.
+
+    Indentation is not used: a member function defined inside a class must be
+    measured too, and a body must not be closed early by a brace in a nested
+    block. Braces in strings or comments could still confuse this; a heuristic is
+    acceptable because LAY-06 is about gross size, not exact counting.
+    """
+    findings: list[str] = []
     depth = 0
     index = 0
     total = len(clean)

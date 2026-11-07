@@ -128,8 +128,12 @@ both the determinism gate and the golden-frame tests possible.
 
 ### Repository layout
 
+The repository root is the game. The art set is a sub-project: it has its own
+tooling, its own README and its own CI gate, and the engine never links against
+it.
+
 ```
-engine/
+<repo root>       <- the game
   CMakeLists.txt  CMakePresets.json
   src/core/       math, fixed, containers, log, hash, arena, assert
   src/platform/   window, input, filesystem, timing, threads, audio device
@@ -141,10 +145,13 @@ engine/
   src/ui/         immediate-mode widgets, panels, HUD
   src/net/        transport, protocol, snapshots, replication
   src/app/        main, states, save/load, settings
-  tools/          cook_assets, lint_layers, lint_conventions, bench, replay
-  tests/          unit/, golden/, fuzz/, bench/
+  tools/          the gate: verify.sh, lint_layers, lint_conventions, bench, replay,
+                  and (from M4) cook_assets
+  tests/          unit/, golden/, fuzz/, bench/, manual/ (hand-run harnesses)
   data/           recipes, machines, tech, balance (JSON + schema)
-  assets/         source GLBs (from the voxel generator) and cooked output
+  assets/         SUB-PROJECT: glb/, obj/, preview/, rigs/, manifest.json and its
+                  own tools/ (the voxel generator). Cooked output lands in data/.
+  plan/           plan, style guide, agent protocol, decisions, state, sessions
 ```
 
 Target sizes, chosen so a single agent can hold a file in context:
