@@ -2,7 +2,8 @@
 
 > Living document. Overwritten every session. If it disagrees with the code, the
 > code wins -- then fix this file in the same PR (`AGT-27`).
-> Last updated: 2026-11-07, session 003 (repository restructured around the game).
+> Last updated: 2026-11-07, session 003 (repository restructured around the game),
+> tagged `v0.1.1-m1`.
 
 ## Phase
 

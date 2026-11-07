@@ -4,7 +4,7 @@
 
 namespace fct {
 
-inline constexpr const char* kVersion = "0.1.0-m1";
+inline constexpr const char* kVersion = "0.1.1-m1";
 
 #if defined(NDEBUG)
 inline constexpr const char* kBuildConfig = "release";
