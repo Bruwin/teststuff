@@ -4,4 +4,5 @@
 #pragma once
 
 #include "render/framebuffer.h"
+#include "render/ppm.h"
 #include "render/rasterizer.h"

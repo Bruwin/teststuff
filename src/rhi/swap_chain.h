@@ -5,6 +5,7 @@
 
 #include <cstdint>
 
+#include "rhi/capture.h"
 #include "rhi/command_buffer.h"
 
 namespace fct::rhi {
@@ -80,6 +81,11 @@ public:
     // them (counts, digest); the GL chain will upload and draw. False when the
     // surface is lost or the buffer is rejected.
     virtual bool try_submit(const CommandBuffer& commands) = 0;
+
+    // Reads the presented surface back as RGBA8, top row first. False on the
+    // headless chain, which has no surface -- callers fall back to the reference
+    // rasteriser rather than pretending a frame exists.
+    virtual bool try_capture(CapturedFrame& frame) const = 0;
 
     virtual std::uint64_t frames_presented() const = 0;
     virtual std::uint64_t clears_issued() const = 0;

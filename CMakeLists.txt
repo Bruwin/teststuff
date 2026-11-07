@@ -52,12 +52,15 @@ target_link_libraries(fct_sim PUBLIC fct_core)
 find_package(SDL3 CONFIG QUIET)
 
 add_library(fct_platform STATIC
+    src/platform/gl_context_stub.cpp
     src/platform/time.cpp)
 target_link_libraries(fct_platform PUBLIC fct_core)
 
 if(SDL3_FOUND)
     message(STATUS "SDL3 ${SDL3_VERSION} found: window backend enabled")
-    target_sources(fct_platform PRIVATE src/platform/window_sdl.cpp)
+    target_sources(fct_platform PRIVATE
+        src/platform/gl_context_sdl.cpp
+        src/platform/window_sdl.cpp)
     target_compile_definitions(fct_platform PUBLIC FCT_HAVE_SDL3=1)
     target_link_libraries(fct_platform PRIVATE SDL3::SDL3)
 else()
@@ -71,6 +74,8 @@ endif()
 # without a GPU still links a working device.
 add_library(fct_rhi STATIC
     src/rhi/device.cpp
+    src/rhi/gl/gl_device.cpp
+    src/rhi/gl/gl_loader.cpp
     src/rhi/null_device.cpp)
 target_link_libraries(fct_rhi PUBLIC fct_core)
 
@@ -78,6 +83,7 @@ target_link_libraries(fct_rhi PUBLIC fct_core)
 # culling and the chunk batcher follow at M4.
 add_library(fct_render STATIC
     src/render/framebuffer.cpp
+    src/render/ppm.cpp
     src/render/rasterizer.cpp)
 target_link_libraries(fct_render PUBLIC fct_rhi)
 
@@ -95,6 +101,7 @@ add_executable(fct_tests
     tests/unit/test_log.cpp
     tests/unit/test_platform.cpp
     tests/unit/test_rhi.cpp
+    tests/unit/test_gl_device.cpp
     tests/unit/test_render.cpp)
 target_include_directories(fct_tests PRIVATE tests)
 target_link_libraries(fct_tests PRIVATE fct_sim fct_platform fct_rhi fct_render)

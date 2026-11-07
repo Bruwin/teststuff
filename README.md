@@ -36,6 +36,7 @@ cmake --preset dev-ninja && cmake --build --preset dev-ninja && ctest --preset d
 ```bash
 ./build/fct_app --ticks 30                        # headless: ticks, then state hash
 ./build/fct_app --frames 600 --frame-ns 16666667  # 10 s of synthetic 60 Hz frames
+./build/fct_app --frames 600 --screenshot frame.ppm  # write the last frame as PPM
 ./build/fct_app --window                          # real window, needs SDL3 at build time
 ```
 
@@ -44,6 +45,10 @@ present, digest -- so the render loop is exercised on a machine with no GPU. It
 prints `presents=` and a `digest=` that must not change between runs, plus
 `covered=` and `frame=`: the number of pixels the triangle and debug box painted in
 a 320x180 software render of the last frame, and a digest of that image.
+
+`--screenshot <path>` writes the frame as binary PPM: hardware readback when a GL
+context exists, the reference rasteriser when it does not. Same format either way,
+so a CI image and a desktop image are comparable.
 
 `--ticks` and `--frames` need no display and no SDL3, which is what keeps CI and
 containers green. `--window` falls back to the synthetic loop with a warning when
@@ -55,9 +60,9 @@ the binary was built headless.
 |---|---|
 | `src/core/` | Q16.16 `Fix`, hashing, logging + sinks, fixed-step clock, version |
 | `src/sim/` | deterministic world: tick order v1, state hash, no floats allowed |
-| `src/platform/` | window, input, monotonic time; SDL3 backend or headless stub |
-| `src/rhi/` | device, swap chain, command buffer; headless backend (GL at M3b) |
-| `src/render/` | reference rasteriser and framebuffer (scene graph at M4) |
+| `src/platform/` | window, input, time, GL context; SDL3 backend or headless stub |
+| `src/rhi/` | device, swap chain, command buffer, capture; headless and GL backends |
+| `src/render/` | reference rasteriser, framebuffer, PPM screenshot writer |
 | `src/app/` | entry point and the frame loop |
 | `src/game/` | gameplay systems (`merge_station.h` at present) |
 | `tests/` | unit tests; `tests/manual/` holds harnesses run by hand |

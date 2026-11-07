@@ -68,6 +68,11 @@ public:
     int width() const { return width_; }
     int height() const { return height_; }
 
+    // Opaque native handle, for modules that must create a surface on this window
+    // (the GL context). Null in the headless stub, which is how callers tell that
+    // there is no surface to attach to.
+    void* native_handle() const { return handle_; }
+
 private:
     void* handle_ = nullptr;  // SDL_Window* in the SDL backend, null in the stub
     bool open_ = false;

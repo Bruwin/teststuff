@@ -29,6 +29,13 @@ public:
 
     bool try_submit(const CommandBuffer& commands) override { return state_.try_submit(commands); }
 
+    // No surface exists, so there is nothing to read back. The caller renders the
+    // same commands in software when it wants an image.
+    bool try_capture(CapturedFrame& frame) const override {
+        (void)frame;
+        return false;
+    }
+
     std::uint64_t frames_presented() const override { return state_.frames_presented(); }
     std::uint64_t clears_issued() const override { return state_.clears_issued(); }
     std::uint64_t submitted_buffers() const override { return state_.submitted_buffers(); }

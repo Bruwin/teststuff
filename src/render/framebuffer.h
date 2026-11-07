@@ -37,6 +37,8 @@ public:
     // about "did anything actually get drawn".
     int covered_pixels() const;
 
+    const std::vector<std::uint32_t>& pixels() const { return pixels_; }
+
     std::uint64_t digest() const;
 
 private:

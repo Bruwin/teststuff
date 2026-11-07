@@ -14,8 +14,11 @@
 #include "core/fixed_step.h"
 #include "core/log.h"
 #include "core/version.h"
+#include "platform/gl_context.h"
 #include "platform/platform.h"
 #include "render/render.h"
+#include "rhi/gl/gl_device.h"
+#include "rhi/gl/gl_loader.h"
 #include "rhi/rhi.h"
 #include "sim/world.h"
 
@@ -28,6 +31,7 @@ struct Options {
     int frames = 0;
     std::int64_t frame_ns = 16'666'667;  // 60 Hz
     bool window = false;
+    const char* screenshot = nullptr;
 };
 
 std::int64_t parse_i64(const char* text, std::int64_t fallback) {
@@ -46,6 +50,8 @@ Options parse_options(int argc, char** argv) {
             options.frames = static_cast<int>(parse_i64(argv[++i], options.frames));
         } else if (std::strcmp(arg, "--frame-ns") == 0 && has_value) {
             options.frame_ns = parse_i64(argv[++i], options.frame_ns);
+        } else if (std::strcmp(arg, "--screenshot") == 0 && has_value) {
+            options.screenshot = argv[++i];
         } else if (std::strcmp(arg, "--window") == 0) {
             options.window = true;
         }
@@ -114,6 +120,51 @@ void draw_frame(fct::rhi::SwapChain* chain, const fct::rhi::CommandBuffer& comma
     chain->try_present();
 }
 
+void* load_gl_proc(void* user, const char* name) {
+    return static_cast<fct::platform::GlContext*>(user)->proc_address(name);
+}
+
+// Prefer real hardware. A machine with no driver is a supported machine: it gets
+// the headless device and a log line, not a failed start.
+std::unique_ptr<fct::rhi::Device> create_window_device(fct::platform::GlContext& context,
+                                                      void* native_window) {
+    if (context.try_create(native_window, {})) {
+        context.make_current();
+        const fct::rhi::gl::GlProcLoader loader{&load_gl_proc, &context};
+        fct::rhi::gl::GlApi api;
+        if (fct::rhi::gl::try_load_api(loader, api)) {
+            if (std::unique_ptr<fct::rhi::gl::GlDevice> device =
+                    fct::rhi::gl::GlDevice::try_create(api, "factory")) {
+                return device;
+            }
+        }
+        FCT_LOG_WARN("gl: context is up but the device could not be built");
+        context.destroy();
+    }
+    return fct::rhi::create_device({});
+}
+
+// Hardware readback when there is a surface, the reference rasteriser when there
+// is not. The file is the same PPM either way, so a CI screenshot and a desktop
+// screenshot are comparable.
+bool save_frame(const fct::rhi::SwapChain* chain, const fct::rhi::CommandBuffer& commands,
+                int last_frame, const char* path) {
+    fct::rhi::CapturedFrame captured;
+    if (chain != nullptr && chain->try_capture(captured) && captured.is_valid()) {
+        return fct::render::try_write_ppm(path, captured.width_px, captured.height_px,
+                                          captured.pixels.data());
+    }
+    fct::render::Framebuffer target;
+    if (!target.try_resize(320, 180)) {
+        return false;
+    }
+    target.clear(clear_for_frame(last_frame));
+    const fct::render::Rasterizer rasterizer;
+    rasterizer.draw(commands, target);
+    return fct::render::try_write_ppm(path, target.width_px(), target.height_px(),
+                                      target.pixels().data());
+}
+
 struct PreviewShot {
     int covered_px = 0;
     std::uint64_t digest = 0;
@@ -166,6 +217,16 @@ int run_frames(const Options& options) {
         swap_chain->try_present();
     }
 
+    if (options.screenshot != nullptr) {
+        const bool wrote = save_frame(swap_chain.get(), commands, options.frames - 1,
+                                      options.screenshot);
+        if (wrote) {
+            FCT_LOG_INFO("screenshot written to %s", options.screenshot);
+        } else {
+            FCT_LOG_ERROR("could not write the screenshot to %s", options.screenshot);
+        }
+    }
+
     const PreviewShot shot = rasterize_preview(commands, options.frames - 1);
     FCT_LOG_INFO(
         "frames=%d ticks=%llu dropped=%llu alpha=%.3f hash=%016llx presents=%llu digest=%016llx "
@@ -180,33 +241,12 @@ int run_frames(const Options& options) {
     return 0;
 }
 
-int run_window() {
-    fct::platform::Window window;
-    fct::platform::WindowDesc desc;
-    desc.title = "factory engine";
-    if (!window.open(desc)) {
-        FCT_LOG_ERROR("could not open a window");
-        return 1;
-    }
-    if (window.is_headless()) {
-        FCT_LOG_WARN("no SDL3 in this build: running 600 synthetic frames instead");
-        Options fallback;
-        fallback.frames = 600;
-        return run_frames(fallback);
-    }
-
-    fct::sim::World world(world_seed());
-    fct::FixedStepClock clock(fct::kSimStepNs, kMaxTicksPerFrame);
+// The windowed loop, kept out of run_window so neither function grows past the
+// size a reader can hold. Returns the number of frames drawn.
+int run_window_frames(fct::platform::Window& window, fct::platform::GlContext& gl_context,
+                      fct::rhi::SwapChain* swap_chain, const fct::rhi::CommandBuffer& commands,
+                      fct::sim::World& world, fct::FixedStepClock& clock) {
     fct::platform::InputSnapshot input{};
-
-    const std::unique_ptr<fct::rhi::Device> device = fct::rhi::create_device({});
-    fct::rhi::SwapChainDesc chain_desc;
-    chain_desc.width_px = window.width();
-    chain_desc.height_px = window.height();
-    const std::unique_ptr<fct::rhi::SwapChain> swap_chain =
-        device->try_create_swap_chain(chain_desc);
-    const fct::rhi::CommandBuffer commands = build_scene_commands();
-
     int frame = 0;
     while (window.is_open() && !input.quit) {
         window.poll(input);
@@ -219,11 +259,54 @@ int run_window() {
             world.tick();
         }
 
-        draw_frame(swap_chain.get(), commands, frame, window.width(), window.height());
-        window.present();
+        draw_frame(swap_chain, commands, frame, window.width(), window.height());
+        if (gl_context.is_open()) {
+            gl_context.swap_buffers();
+        } else {
+            window.present();
+        }
         ++frame;
         // One clear and one triangle per frame: yield rather than spin at 100 %.
         fct::platform::sleep_for_ns(1'000'000);
+    }
+    return frame;
+}
+
+int run_window(const Options& options) {
+    fct::platform::Window window;
+    fct::platform::WindowDesc desc;
+    desc.title = "factory engine";
+    if (!window.open(desc)) {
+        FCT_LOG_ERROR("could not open a window");
+        return 1;
+    }
+    if (window.is_headless()) {
+        FCT_LOG_WARN("no SDL3 in this build: running 600 synthetic frames instead");
+        Options fallback;
+        fallback.frames = 600;
+        fallback.screenshot = options.screenshot;
+        return run_frames(fallback);
+    }
+
+    fct::sim::World world(world_seed());
+    fct::FixedStepClock clock(fct::kSimStepNs, kMaxTicksPerFrame);
+
+    fct::platform::GlContext gl_context;
+    const std::unique_ptr<fct::rhi::Device> device =
+        create_window_device(gl_context, window.native_handle());
+    fct::rhi::SwapChainDesc chain_desc;
+    chain_desc.width_px = window.width();
+    chain_desc.height_px = window.height();
+    const std::unique_ptr<fct::rhi::SwapChain> swap_chain =
+        device->try_create_swap_chain(chain_desc);
+    const fct::rhi::CommandBuffer commands = build_scene_commands();
+
+    const int frame =
+        run_window_frames(window, gl_context, swap_chain.get(), commands, world, clock);
+
+    if (options.screenshot != nullptr &&
+        !save_frame(swap_chain.get(), commands, frame, options.screenshot)) {
+        FCT_LOG_ERROR("could not write the screenshot to %s", options.screenshot);
     }
 
     device->wait_idle();
@@ -246,7 +329,7 @@ int main(int argc, char** argv) {
                  static_cast<int>(fct::sim::kTicksPerSecond));
 
     if (options.window) {
-        return run_window();
+        return run_window(options);
     }
     if (options.frames > 0) {
         return run_frames(options);
